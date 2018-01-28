@@ -124,6 +124,10 @@ dagger.androidProcessor = "com.google.dagger:dagger-android-processor:$versions.
 dagger.support = "com.google.dagger:dagger-android-support:$versions.dagger"
 
 deps.dagger = dagger
+//=============================================== TESTS ============================================
+def tests = [:]
+tests.junit = 'junit:junit:4.12'
+deps.tests = tests
 //============================================== BUILD =============================================
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
 

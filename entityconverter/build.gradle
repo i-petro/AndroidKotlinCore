@@ -26,7 +26,15 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.support.annotations
-
     implementation deps.kotlin.stdlib
+
+    testCompile deps.tests.junit
 }
+
+ext {
+    PUBLISH_GROUP_ID = 'com.androidkotlincore'
+    PUBLISH_ARTIFACT_ID = 'entityconverter'
+    PUBLISH_VERSION = '0.1'
+}
+
+apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
