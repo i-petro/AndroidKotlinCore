@@ -9,7 +9,7 @@ import kotlin.reflect.KFunction3
 interface ConvertersContext {
 
     /**
-     * Registers converter.
+     * Registers converter between two entity classes
      *
      * @param inClass   input class - abstract as possible
      * @param outClass  output class - concrete as possible

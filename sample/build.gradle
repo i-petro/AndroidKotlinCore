@@ -13,9 +13,6 @@ def getGitHash = { ->
 }
 
 def globalConfiguration = rootProject.extensions.getByName("ext")
-def keystorePropertiesFile = rootProject.file("./keystore/keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdkVersion build_versions.compile_sdk

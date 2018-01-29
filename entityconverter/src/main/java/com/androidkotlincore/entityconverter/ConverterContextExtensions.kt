@@ -7,7 +7,9 @@ import kotlin.reflect.KFunction3
  */
 
 /**
+ * Registers converter between two entity classes
  *
+ * @param converter convert function reference
  */
 inline fun <reified IN : Any, reified OUT : Any> ConvertersContext.registerConverter(
         converter: KFunction3<
@@ -19,7 +21,11 @@ inline fun <reified IN : Any, reified OUT : Any> ConvertersContext.registerConve
 }
 
 /**
+ * Registers converter between two entity classes
  *
+ * @param inClass   input class - abstract as possible
+ * @param outClass  output class - concrete as possible
+ * @param converter convert function reference
  */
 fun <IN : Any, OUT : Any> ConvertersContext.registerConverter(
         inClass: Class<IN>,
@@ -29,7 +35,11 @@ fun <IN : Any, OUT : Any> ConvertersContext.registerConverter(
 }
 
 /**
+ * Registers converter between two entity classes
  *
+ * @param inClass   input class - abstract as possible
+ * @param outClass  output class - concrete as possible
+ * @param converter convert function reference
  */
 inline fun <IN : Any, OUT : Any> ConvertersContext.registerConverter(
         inClass: Class<IN>,
@@ -42,7 +52,11 @@ inline fun <IN : Any, OUT : Any> ConvertersContext.registerConverter(
 }
 
 /**
+ * Registers converter between two entity classes
  *
+ * @param inClass   input class - abstract as possible
+ * @param outClass  output class - concrete as possible
+ * @param converter convert function reference
  */
 inline fun <IN : Any, OUT : Any> ConvertersContext.registerConverter(
         inClass: Class<IN>,
@@ -55,7 +69,9 @@ inline fun <IN : Any, OUT : Any> ConvertersContext.registerConverter(
 }
 
 /**
+ * Registers converter between two entity classes
  *
+ * @param converter convert function reference
  */
 inline fun <reified IN : Any, reified OUT : Any> ConvertersContext.registerConverter(
         crossinline converter: (IN) -> OUT) {
@@ -68,17 +84,17 @@ inline fun <reified IN : Any, reified OUT : Any> ConvertersContext.registerConve
 /**
  * Registers converters.
  *
- * @param visitorClass reference to [ConvertersContextVisitor] cass with default constructor.
+ * @param registrationCallbackClass reference to [ConvertersContextRegistrationCallback] cass with default constructor.
  */
-fun ConvertersContext.registerConverter(visitorClass: Class<out ConvertersContextVisitor>) {
-    visitorClass.getDeclaredConstructor().newInstance().visit(this)
+fun ConvertersContext.registerConverter(registrationCallbackClass: Class<out ConvertersContextRegistrationCallback>) {
+    registrationCallbackClass.getDeclaredConstructor().newInstance().register(this)
 }
 
 /**
  * Registers converters.
  *
- * @param visitor instance of converters context visitor
+ * @param registrationCallback instance of converters context registrationCallback
  */
-fun ConvertersContext.registerConverter(visitor: ConvertersContextVisitor) {
-    visitor.visit(this)
+fun ConvertersContext.registerConverter(registrationCallback: ConvertersContextRegistrationCallback) {
+    registrationCallback.register(this)
 }
