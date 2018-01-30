@@ -98,3 +98,22 @@ fun ConvertersContext.registerConverter(registrationCallbackClass: Class<out Con
 fun ConvertersContext.registerConverter(registrationCallback: ConvertersContextRegistrationCallback) {
     registrationCallback.register(this)
 }
+
+/**
+ * Converts one entity type to another
+ *
+ * @param input input entity
+ */
+inline fun <reified OUT : Any> ConvertersContext.convert(input: Any): OUT {
+    return convert(input, OUT::class.java)
+}
+
+/**
+ * Converts one entity type to another
+ *
+ * @param input input entity
+ * @param token token that will be passed in [ConvertersContext.convert] method.
+ */
+inline fun <reified OUT : Any> ConvertersContext.convert(input: Any, token: Any?): OUT {
+    return convert(input, token, OUT::class.java)
+}

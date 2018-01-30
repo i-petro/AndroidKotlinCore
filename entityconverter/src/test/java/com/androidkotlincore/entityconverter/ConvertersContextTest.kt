@@ -13,15 +13,15 @@ class ConvertersContextTest {
         val context: ConvertersContext = ConvertersContextImpl()
         val input: User = UserRest("Name1", "Password1")
         assertEquals(input, context.convert(input, UserRest::class.java))
-        assertEquals(input, context.convert(input, User::class.java))
-        assertEquals(input, context.convert(input, Any::class.java))
+        assertEquals(input, context.convert<User>(input))
+        assertEquals(input, context.convert(input))
     }
 
     @Test(expected = UnsupportedOperationException::class)
     fun converterNotFound() {
         val context: ConvertersContext = ConvertersContextImpl()
         val input: User = UserRest("Name1", "Password1")
-        val out = context.convert(input, UserDb::class.java) //throws UnsupportedOperationException here
+        val out = context.convert<UserDb>(input) //throws UnsupportedOperationException here
     }
 
     @Test(expected = IllegalStateException::class)
@@ -41,7 +41,7 @@ class ConvertersContextTest {
         val userImpl = UserImpl("Name1", "Password1")
 
         assertEquals(userDb, context.convert(userRest, UserDb::class.java))
-        assertEquals(userDb, context.convert(userImpl, UserDb::class.java))
+        assertEquals(userDb, context.convert<UserDb>(userImpl))
     }
 
     /**
@@ -57,7 +57,23 @@ class ConvertersContextTest {
         val userImpl = UserImpl("Name1", "Password1")
 
         //converter does not know how to convert UserImpl to UserDb
-        assertEquals(userDb, context.convert(userImpl, UserDb::class.java)) //throws UnsupportedOperationException here
+        assertEquals(userDb, context.convert<UserDb>(userImpl)) //throws UnsupportedOperationException here
+    }
+
+    @Test
+    fun registrationCallbackInstance() {
+        val context: ConvertersContext = ConvertersContextImpl()
+        context.registerConverter(RegistrationCallback())
+        val userImpl = UserImpl("Name1", "Password1")
+        val userDb: UserDb = context.convert(userImpl)
+    }
+
+    @Test
+    fun registrationCallbackClass() {
+        val context: ConvertersContext = ConvertersContextImpl()
+        context.registerConverter(RegistrationCallback::class.java)
+        val userImpl = UserImpl("Name1", "Password1")
+        val userDb: UserDb = context.convert(userImpl)
     }
 
 }
@@ -75,6 +91,11 @@ data class UserDb(override val name: String, override val password: String) : Us
 }
 data class UserImpl(override val name: String, override val password: String) : User {
     constructor(copy: User): this(copy.name, copy.password)
+}
+class RegistrationCallback : ConvertersContextRegistrationCallback{
+    override fun register(convertersContext: ConvertersContext) {
+        convertersContext.registerConverter(User::class.java, UserDb::class.java, ::toDb)
+    }
 }
 
 private fun toDb(input: User, token: Any?, converter: ConvertersContext) = UserDb(input)

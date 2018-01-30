@@ -53,30 +53,30 @@ interface ConvertersContext {
     fun <IN : Any, OUT : Any> convertCollection(collection: Iterable<IN>, outClass: Class<OUT>): List<OUT> = convertCollection(collection, Unit, outClass)
 
     /**
-     * Use this converter for Rx.map() operator
+     * Returns converter as a function
      *
      * @param outClass output class
      * @param <IN>     type of input object
      * @param <OUT>    type of output object
      * @return converted object with type OUT
      */
-    fun <IN : Any, OUT : Any> convert(outClass: Class<OUT>): (input: IN) -> OUT = {
+    fun <IN : Any, OUT : Any> convertFunc(outClass: Class<OUT>): (input: IN) -> OUT = {
         convert(it, outClass)
     }
 
-    fun <IN : Any, OUT : Any> convert(outClass: Class<OUT>, token: Any?): (input: IN) -> OUT = {
+    fun <IN : Any, OUT : Any> convertFunc(outClass: Class<OUT>, token: Any?): (input: IN) -> OUT = {
         convert(it, token, outClass)
     }
 
     /**
-     * Use this converter for Rx.map() operator
+     * Returns converter as a function
      *
      * @param outClass output class
      * @param <IN>     type of input objects
      * @param <OUT>    type of output objects
      * @return converted list of objects with type OUT
      */
-    fun <IN : Any, OUT : Any> convertCollection(outClass: Class<OUT>): (input: Iterable<IN>) -> List<OUT> = {
+    fun <IN : Any, OUT : Any> convertCollectionFunc(outClass: Class<OUT>): (input: Iterable<IN>) -> List<OUT> = {
         convertCollection(it, outClass)
     }
 }
