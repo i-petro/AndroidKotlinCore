@@ -1,38 +1,115 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+def getGitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+def globalConfiguration = rootProject.extensions.getByName("ext")
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion build_versions.compile_sdk
+    buildToolsVersion build_versions.build_tools
 
-
+    testBuildType "debug"
 
     defaultConfig {
         applicationId "com.androidkotlincore.androidkotlincoresample"
-        minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        vectorDrawables.useSupportLibrary = true
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        def versionMajor = 1
+        def versionMinor = 0
+        def versionPatch = 2
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        versionCode 15
 
+        buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+        encoding "UTF-8"
+    }
+    kotlin { experimental { coroutines 'enable' } }
+    signingConfigs {
+        debug {
+            storeFile file("../keystore/key.jks")
+            storePassword 'android'
+            keyAlias 'android'
+            keyPassword 'android'
+        }
+        release {
+            storeFile file("../keystore/key.jks")
+            storePassword 'android'
+            keyAlias 'android'
+            keyPassword 'android'
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            debuggable false
+            multiDexEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+            multiDexEnabled = true
+            signingConfig signingConfigs.debug
         }
     }
 
+    applicationVariants.all { variant ->
+        println("Iterating variant: " + variant.getName())
+        switch (variant.getName()) {
+            case 'release':
+                variant.buildConfigField "String", "DB_NAME", "\"${globalConfiguration['databaseNameRelease']}\""
+                break
+            case 'debug':
+                variant.buildConfigField "String", "DB_NAME", "\"${globalConfiguration['databaseNameDev']}\""
+                break
+        }
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:support-v4:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //modules
+//    implementation deps.entityconverter
+//    compile 'com.androidkotlincore.entityconverter:entityconverter:0.0.1'
+//    implementation 'com.androidkotlincore:entityconverter:0.0.1'
+
+    //support
+    implementation deps.support.appcompat
+    implementation deps.support.design
+    implementation deps.support.cardview
+    implementation deps.support.annotations
+    implementation deps.support.recyclerview
+    implementation deps.support.constraintLayout
+
+    //rx
+    implementation deps.rx.android
+    implementation deps.rx.java
+
+    //coroutines
+    implementation deps.coroutines.core
+    implementation deps.coroutines.android
+    implementation deps.coroutines.rx
+
+    //kotlin
+    implementation deps.kotlin.stdlib
 }
