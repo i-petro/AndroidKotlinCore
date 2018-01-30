@@ -89,9 +89,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     //modules
-//    implementation deps.entityconverter
-//    compile 'com.androidkotlincore.entityconverter:entityconverter:0.0.1'
-//    implementation 'com.androidkotlincore:entityconverter:0.0.1'
+    implementation deps.entityconverter
 
     //support
     implementation deps.support.appcompat
@@ -102,13 +100,13 @@ dependencies {
     implementation deps.support.constraintLayout
 
     //rx
-    implementation deps.rx.android
-    implementation deps.rx.java
+//    implementation deps.rx.android
+//    implementation deps.rx.java
 
     //coroutines
     implementation deps.coroutines.core
     implementation deps.coroutines.android
-    implementation deps.coroutines.rx
+//    implementation deps.coroutines.rx
 
     //kotlin
     implementation deps.kotlin.stdlib
