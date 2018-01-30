@@ -52,6 +52,6 @@ abstract class BaseMVPFragment<TView, TPresenter>(private val mvpDelegate: MVPFr
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return if (layoutId != 0) inflater.inflate(layoutId, container, false)
-        else null
+        else super.onCreateView(inflater, container, savedInstanceState)
     }
 }
