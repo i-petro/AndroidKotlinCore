@@ -7,7 +7,9 @@ versions.play_services_gradle_plugin = '3.1.0'
 def deps = [:]
 
 //=============================================== MODULES===========================================
-deps.entityconverter = project(":entityconverter")
+deps.mvp = project(":mvp")
+//deps.entityconverter = project(":entityconverter")
+deps.entityconverter = 'com.androidkotlincore:entityconverter:0.0.1'
 //=============================================== SUPPORT ==========================================
 versions.support = "27.0.2"
 
@@ -143,7 +145,10 @@ ext.build_versions = build_versions
 static def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
-    handler.maven { url "https://jitpack.io" }
+    handler.maven {
+        url "https://jitpack.io"
+        url "https://dl.bintray.com/peterilchenko/AndroidKotlinCore/"
+    }
 }
 ext.addRepos = this.&addRepos
 
