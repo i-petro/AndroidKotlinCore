@@ -91,7 +91,7 @@ dependencies {
     //modules
 //    implementation deps.entityconverter
 //    compile 'com.androidkotlincore.entityconverter:entityconverter:0.0.1'
-//    implementation 'com.androidkotlincore:entityconverter:0.0.1'
+    implementation 'com.androidkotlincore:entityconverter:0.0.1'
 
     //support
     implementation deps.support.appcompat

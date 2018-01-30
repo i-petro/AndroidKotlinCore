@@ -143,7 +143,10 @@ ext.build_versions = build_versions
 static def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
-    handler.maven { url "https://jitpack.io" }
+    handler.maven {
+        url "https://jitpack.io"
+        url 'https://dl.bintray.com/peterilchenko/AndroidKotlinCore/'
+    }
 }
 ext.addRepos = this.&addRepos
 
