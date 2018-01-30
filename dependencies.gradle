@@ -130,6 +130,8 @@ tests.junit = 'junit:junit:4.12'
 deps.tests = tests
 //============================================== BUILD =============================================
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
+deps.bintray = "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0"
+deps.maven = "com.github.dcendents:android-maven-gradle-plugin:1.4.1"
 
 def build_versions = [:]
 build_versions.min_sdk = 21

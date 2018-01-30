@@ -41,16 +41,36 @@ android {
         encoding "UTF-8"
     }
     kotlin { experimental { coroutines 'enable' } }
-
-    buildTypes {
-        release {
-
-        }
+    signingConfigs {
         debug {
-
+            storeFile file("../keystore/key.jks")
+            storePassword 'android'
+            keyAlias 'android'
+            keyPassword 'android'
+        }
+        release {
+            storeFile file("../keystore/key.jks")
+            storePassword 'android'
+            keyAlias 'android'
+            keyPassword 'android'
         }
     }
 
+    buildTypes {
+        release {
+            minifyEnabled true
+            debuggable false
+            multiDexEnabled = false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+            multiDexEnabled = true
+            signingConfig signingConfigs.debug
+        }
+    }
 
     applicationVariants.all { variant ->
         println("Iterating variant: " + variant.getName())
@@ -69,7 +89,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     //modules
-    implementation deps.entityconverter
+//    implementation deps.entityconverter
+//    compile 'com.androidkotlincore.entityconverter:entityconverter:0.0.1'
+//    implementation 'com.androidkotlincore:entityconverter:0.0.1'
 
     //support
     implementation deps.support.appcompat
@@ -78,24 +100,6 @@ dependencies {
     implementation deps.support.annotations
     implementation deps.support.recyclerview
     implementation deps.support.constraintLayout
-
-    //glide
-    implementation deps.glide.glide
-    annotationProcessor deps.glide.glideAnno
-    implementation deps.glide.glideTransformers
-    implementation deps.glide.glideOkHttp
-    kapt deps.glide.glideCompiler
-
-    //play services
-    implementation deps.playServices.maps
-    implementation deps.playServices.locations
-
-    //networking
-    implementation deps.network.okhttp
-    implementation deps.network.logging
-    implementation deps.network.retrofit
-    implementation deps.network.rxadapter
-    implementation deps.network.gsonconverter
 
     //rx
     implementation deps.rx.android
@@ -108,20 +112,4 @@ dependencies {
 
     //kotlin
     implementation deps.kotlin.stdlib
-
-    //database
-    implementation deps.database.roomRuntime
-    implementation deps.database.roomRxAdapter
-    kapt deps.database.roomAnnotationProcessor
-
-    //debugging utils
-    debugImplementation deps.other.leak
-
-    //dagger
-    implementation deps.dagger.lib
-    kapt deps.dagger.processor
-    implementation deps.dagger.android
-    kapt deps.dagger.androidProcessor
-    implementation deps.dagger.support
-    kaptAndroidTest deps.dagger.processor
 }
