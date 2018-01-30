@@ -19,7 +19,7 @@ ext {
 
     developerId = 'i-petro'
     developerName = 'Peter Ilchenko'
-    developerEmail = 'prostoplus@gmail.com'
+    developerEmail = 'peter.ilchenko@gmail.com'
 
     licenseName = 'The MIT License'
     licenseUrl = 'https://opensource.org/licenses/MIT'
