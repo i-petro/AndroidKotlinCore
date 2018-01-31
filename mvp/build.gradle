@@ -1,16 +1,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
 
 ext {
     bintrayRepo = 'AndroidKotlinCore'
-    bintrayName = 'MVP-RX'
+    bintrayName = 'mvp'
 
     publishedGroupId = 'com.androidkotlincore'
-    libraryName = 'MVP-RX'
-    artifact = 'MVP-RX'
+    libraryName = 'mvp'
+    artifact = 'mvp'
 
-    libraryDescription = 'Simple MVP implementation using RX'
+    libraryDescription = 'Simple MVP implementation using Kotlin'
 
     siteUrl = 'https://github.com/i-petro/AndroidKotlinCore'
     gitUrl = 'https://github.com/i-petro/AndroidKotlinCore.git'
@@ -67,8 +67,12 @@ kotlin {
 }
 
 // Place it at the end of the file
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+//
+//tasks.findByPath(":mvp:javadoc").enabled = false
 
-tasks.findByPath(":mvp:javadoc").enabled = false
+//          ./gradlew bintrayUpload
+//          ./gradlew install
+
 
