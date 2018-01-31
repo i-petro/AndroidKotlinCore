@@ -1,6 +1,7 @@
 package com.androidkotlincore.mvp.impl
 
 import android.os.Build
+import android.support.v4.app.BackStackAccessor
 import android.support.v4.app.Fragment
 import com.androidkotlincore.mvp.MVPPresenter
 import com.androidkotlincore.mvp.MVPView
@@ -26,14 +27,30 @@ class MVPFragmentDelegate<TPresenter, TView, in V>(presentersStorage: Presenters
         super.init(view)
     }
 
-    override fun retainPresenterInstance(): Boolean = view.isNeedToRetainInstance
+    override fun retainPresenterInstance(): Boolean {
+        val localActivity = requireNotNull(view.activity) { "Activity must not be null for fragment $this"}
+
+        if (localActivity.isChangingConfigurations) {
+            return true
+        }
+
+        if (localActivity.isFinishing) {
+            return false
+        }
+
+        if (BackStackAccessor.isFragmentOnBackStack(view)) {
+            return true
+        }
+
+        return !view.isRemoving
+    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         val shouldShowRequestPermissionRationale = BooleanArray(permissions.size) {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && view.shouldShowRequestPermissionRationale(permissions[it])
         }
 
-        onRequestPermissionsResultSubject.onNext(OnRequestPermissionsResultEvent(
+        onRequestPermissionResult.emit(OnRequestPermissionsResultEvent(
                 requestCode,
                 permissions.toList(),
                 grantResults.toList(),

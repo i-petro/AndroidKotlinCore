@@ -9,10 +9,10 @@ import android.content.Intent
 import android.os.Bundle
 import com.androidkotlincore.mvp.ViewPersistenceStorage
 import com.androidkotlincore.mvp.*
+import com.androidkotlincore.mvp.addons.CompositeEventListener
+import com.androidkotlincore.mvp.addons.impl.BehaviourCompositeEventListener
 import com.androidkotlincore.mvp.impl.MVPLogger.log
 import com.androidkotlincore.mvp.impl.permissions.OnRequestPermissionsResultEvent
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
 
 /**
 * Created by Peter on 07.01.2017.
@@ -44,11 +44,6 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
             else throw IllegalStateException("$localView must implement ${ViewPersistenceStorage::class.java.name}")
         }
 
-    //lifecycle delegate
-    private val onLifecycleEventSubject = BehaviorSubject.create<Lifecycle.Event>()
-    private val onActivityResultSubject = BehaviorSubject.create<OnActivityResultEvent>()
-    protected val onRequestPermissionsResultSubject = BehaviorSubject.create<OnRequestPermissionsResultEvent>()!!
-
     private var presenterId: Long = -1L
 
     protected fun init(view: MVPView<TView, TPresenter>) {
@@ -59,10 +54,9 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
 
     ///////////////////////////////////// MVPView methods overriding ///////////////////////////////
     override val presenter: TPresenter by lazy { createOrRestorePresenter() }
-    override val lifecycle: Observable<Lifecycle.Event> get() = onLifecycleEventSubject.hide()
-    override val onActivityResult: Observable<OnActivityResultEvent> = onActivityResultSubject.hide()
-    override val onRequestPermissionResult: Observable<OnRequestPermissionsResultEvent> = onRequestPermissionsResultSubject.hide()
-
+    override val lifecycle: CompositeEventListener<Lifecycle.Event> = BehaviourCompositeEventListener()
+    override val onActivityResult: CompositeEventListener<OnActivityResultEvent> = BehaviourCompositeEventListener()
+    override val onRequestPermissionResult: CompositeEventListener<OnRequestPermissionsResultEvent> = BehaviourCompositeEventListener()
     override val contextNotNull: Context
         get() {
             val localView = view
@@ -76,7 +70,7 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        onActivityResultSubject.onNext(OnActivityResultEvent(requestCode, resultCode, data))
+        onActivityResult.emit(OnActivityResultEvent(requestCode, resultCode, data))
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,7 +91,7 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
         }
 
         if (event != Lifecycle.Event.ON_ANY) {
-            onLifecycleEventSubject.onNext(event)
+            lifecycle.emit(event)
         }
     }
 

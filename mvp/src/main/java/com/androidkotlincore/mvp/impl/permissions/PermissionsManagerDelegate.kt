@@ -5,10 +5,10 @@ import android.app.Fragment
 import android.content.pm.PackageManager
 import android.os.Build
 import android.support.annotation.UiThread
-import io.reactivex.Observable
+import com.androidkotlincore.mvp.addons.CompositeEventListener
+import com.androidkotlincore.mvp.addons.awaitFirst
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.rx2.awaitFirst
 import kotlinx.coroutines.experimental.sync.Mutex
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger
 typealias SupportFragment = android.support.v4.app.Fragment
 
 class PermissionsManagerDelegate(
-        private val permissionsObservable: Observable<OnRequestPermissionsResultEvent>,
+        private val permissionsObservable: CompositeEventListener<OnRequestPermissionsResultEvent>,
         private val view: suspend () -> Any) : PermissionsManager {
 
     override suspend fun requestPermissions(permissions: List<String>): RequestPermissionsResult {
@@ -65,7 +65,7 @@ class PermissionsManagerDelegate(
             }
 
             //wait for permissions request result
-            val event = permissionsObservable.filter { it.requestCode == requestCode }.awaitFirst()
+            val event = permissionsObservable.awaitFirst{ it.requestCode == requestCode }
             return RequestPermissionsResult(event)
         } finally {
             REQUEST_PERMISSION_MUTEX.unlock()

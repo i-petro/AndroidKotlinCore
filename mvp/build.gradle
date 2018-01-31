@@ -52,15 +52,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.support.appcompat
-    implementation deps.support.design
     implementation deps.support.annotations
-
-    implementation deps.rx.android
-    implementation deps.rx.java
 
     implementation deps.coroutines.core
     implementation deps.coroutines.android
-    implementation deps.coroutines.rx
 
     implementation deps.kotlin.stdlib
 }

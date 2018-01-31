@@ -26,6 +26,7 @@ internal class PresentersStorageImpl<TPresenter, TView> : PresentersStorage<TPre
         ALL_PRESENTERS.remove(PresenterHash(view::class.java, id))
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun get(view: MVPView<TView, TPresenter>, id: Long): TPresenter? =
             ALL_PRESENTERS[PresenterHash(view::class.java, id)] as TPresenter?
 

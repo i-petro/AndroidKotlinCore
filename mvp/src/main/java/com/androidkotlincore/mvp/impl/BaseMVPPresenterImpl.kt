@@ -4,14 +4,13 @@ import android.arch.lifecycle.Lifecycle
 import android.os.Handler
 import android.os.Looper
 import com.androidkotlincore.mvp.*
+import com.androidkotlincore.mvp.addons.CompositeEventListener
 import com.androidkotlincore.mvp.addons.StateExecutor
+import com.androidkotlincore.mvp.addons.impl.BehaviourCompositeEventListener
 import com.androidkotlincore.mvp.impl.MVPLogger.log
 import com.androidkotlincore.mvp.impl.permissions.OnRequestPermissionsResultEvent
 import com.androidkotlincore.mvp.impl.permissions.PermissionsManager
 import com.androidkotlincore.mvp.impl.permissions.PermissionsManagerDelegate
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.experimental.suspendCancellableCoroutine
 
 /**
@@ -31,18 +30,18 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
     private val mainThreadHandler = Handler(Looper.getMainLooper())
     private var mvpView = StateExecutor<TView?, TView>(initState = null) { it != null }
     //view lifecycle
-    private val viewLifecycleEventsDelegate = BehaviorSubject.create<Lifecycle.Event>()
-    private var viewLifecycleDisposable: Disposable? = null
-    val viewLifecycle get() = viewLifecycleEventsDelegate.hide()!!
+    val viewLifecycle: CompositeEventListener<Lifecycle.Event> = BehaviourCompositeEventListener()
+    private var lifecycleListener: ((Lifecycle.Event) -> Unit)? = null
+
     //on activity result
-    private val onActivityResultEventsDelegate = BehaviorSubject.create<OnActivityResultEvent>()
-    private var onActivityResultDisposable: Disposable? = null
-    val onActivityResult get() = onActivityResultEventsDelegate.hide()!!
+    val onActivityResult: CompositeEventListener<OnActivityResultEvent> = BehaviourCompositeEventListener()
+    private var onActivityResultListener: ((OnActivityResultEvent) -> Unit)? = null
+
     //on request permission result
-    private val onRequestPermissionsResultDelegate = BehaviorSubject.create<OnRequestPermissionsResultEvent>()
-    private var onRequestPermissionsResultDisposable: Disposable? = null
+    private val onRequestPermissionsResultDelegate: CompositeEventListener<OnRequestPermissionsResultEvent> = BehaviourCompositeEventListener()
+    private var onRequestPermissionsListener: ((OnRequestPermissionsResultEvent) -> Unit)? = null
     val permissions: PermissionsManager by lazy {
-        PermissionsManagerDelegate(onRequestPermissionsResultDelegate.hide(), view = { getView() })
+        PermissionsManagerDelegate(onRequestPermissionsResultDelegate, view = { getView() })
     }
 
     //////////////////////////////////////// VIEW STATES ///////////////////////////////////////////
@@ -119,23 +118,9 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
 
     final override fun attachView(view: TView) {
         //attach lifecycle events delegate
-        viewLifecycleDisposable?.dispose()
-        viewLifecycleDisposable = view.lifecycle
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(viewLifecycleEventsDelegate::onNext)
-                .bind(this)
-        //attach to activity result events
-        onActivityResultDisposable?.dispose()
-        onActivityResultDisposable = view.onActivityResult
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(onActivityResultEventsDelegate::onNext)
-                .bind(this)
-        //attach to permission result events
-        onRequestPermissionsResultDisposable?.dispose()
-        onRequestPermissionsResultDisposable = view.onRequestPermissionResult
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(onRequestPermissionsResultDelegate::onNext)
-                .bind(this)
+        lifecycleListener = view.lifecycle.subscribe { viewLifecycle.emit(it) }
+        onActivityResultListener = view.onActivityResult.subscribe { onActivityResult.emit(it) }
+        onRequestPermissionsListener = view.onRequestPermissionResult.subscribe { onRequestPermissionsResultDelegate.emit(it) }
 
         mvpView.value = view
 
@@ -150,11 +135,11 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
 
     final override fun detachView(view: TView) {
         //detach lifecycle events delegate
-        viewLifecycleDisposable?.dispose()
+        lifecycleListener?.let { view.lifecycle.unSubscribe(it) }
         //detach from OnActivityResult events
-        onActivityResultDisposable?.dispose()
+        onActivityResultListener?.let { view.onActivityResult.unSubscribe(it) }
         //detach from OnRequestPermissionsResult events
-        onRequestPermissionsResultDisposable?.dispose()
+        onRequestPermissionsListener?.let { view.onRequestPermissionResult.unSubscribe(it) }
         //clear view
         mvpView.value = null
         onViewDetached(view)

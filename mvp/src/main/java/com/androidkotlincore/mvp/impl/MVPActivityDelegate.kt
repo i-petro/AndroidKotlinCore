@@ -26,14 +26,16 @@ class MVPActivityDelegate<TPresenter, TView, in V>(presentersStorage: Presenters
         super.init(view)
     }
 
-    override fun retainPresenterInstance(): Boolean = view.isNeedToRetainInstance
+    override fun retainPresenterInstance(): Boolean {
+        return view.isChangingConfigurations || !view.isFinishing
+    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         val shouldShowRequestPermissionRationale = BooleanArray(permissions.size) {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && view.shouldShowRequestPermissionRationale(permissions[it])
         }
 
-        onRequestPermissionsResultSubject.onNext(OnRequestPermissionsResultEvent(
+        onRequestPermissionResult.emit(OnRequestPermissionsResultEvent(
                 requestCode,
                 permissions.toList(),
                 grantResults.toList(),
