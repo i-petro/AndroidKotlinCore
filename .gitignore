@@ -43,7 +43,7 @@ proguard/
 captures/
 
 # Intellij
-.idea/workspace.xml
+.idea/
 .idea/tasks.xml
 .idea/gradle.xml
 .idea/dictionaries
@@ -145,3 +145,6 @@ fabric.properties
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 /gradlew
 /gradlew.bat
+gradle/
+mvp-rx/
+sample/release/
