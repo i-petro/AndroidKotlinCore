@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.androidkotlincore.mvp.impl.permissions
 
 import android.content.pm.PackageManager

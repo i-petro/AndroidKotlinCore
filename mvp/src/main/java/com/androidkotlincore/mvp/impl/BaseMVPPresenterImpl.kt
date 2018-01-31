@@ -103,6 +103,7 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
     /**
      * Executes action when View will be available on the MAIN THREAD!
      */
+    //TODO: reduce objects count here
     override fun postToView(action: TView.() -> Unit) = run { mainThreadHandler.post { mvpView.invoke(action)}; Unit }
 
     override suspend fun getView(): TView {
@@ -124,6 +125,7 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
 
         mvpView.value = view
 
+        //TODO: restore view state after View creation, not in attachView()
         viewStateDelegate.restoreViewState(view)
 
         onViewAttached(view)

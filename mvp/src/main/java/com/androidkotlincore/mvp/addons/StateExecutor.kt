@@ -6,7 +6,7 @@ import kotlin.reflect.KProperty
 
 /**
  * State executor. Executes an action when executionPredicate returns true; otherwise saves an action
- * to the queue and executes it when next time
+ * to the queue and executes it later
  */
 class StateExecutor<State : Any?, out OutState : Any?> : ReadWriteProperty<Any?, State> {
     var value: State
@@ -25,7 +25,10 @@ class StateExecutor<State : Any?, out OutState : Any?> : ReadWriteProperty<Any?,
     constructor(initState: State, executionPredicate: ((state: State) -> Boolean)) {
         this.executionPredicate = executionPredicate
         this.value = initState
-        this.transformer = { value as OutState }
+        this.transformer = {
+            @Suppress("UNCHECKED_CAST")
+            value as OutState
+        }
     }
 
     constructor(initState: State, executionPredicate: ((state: State) -> Boolean), transformer: ((inState: State) -> OutState)) {

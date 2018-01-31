@@ -10,9 +10,9 @@ import android.os.Bundle
 /**
  * Represents View, which have lifecycle
  * All Activities and Fragments must implement this interface
- * @see BaseMVPActivity
- * @see BaseMVPFragment
- * @see BaseMVPDialog
+ * @see [com.androidkotlincore.mvp.impl.BaseMVPActivity]
+ * @see [com.androidkotlincore.mvp.impl.BaseMVPFragment]
+ * @see [com.androidkotlincore.mvp.impl.BaseMVPDialog]
  */
 interface MVPView<TView, TPresenter> : LifecycleOwner
         where TView : MVPView<TView, TPresenter>,

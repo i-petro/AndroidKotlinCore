@@ -95,8 +95,11 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun createPresenter(view: MVPView<TView, TPresenter>) = provideInjector(view).createPresenter(view.javaClass, view.mvpTag) as TPresenter
+
     protected open fun provideInjector(view: MVPView<TView, TPresenter>) = (view.contextNotNull.applicationContext as MVPInjector)
+
     private fun createOrRestorePresenter(): TPresenter {
         val presenterExtraId = "${view.javaClass.name}.presenterId"
         val localPresenterId = viewPersistenceStorage.getLong(presenterExtraId, PRESENTER_NOT_FOUND)
@@ -111,7 +114,7 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
             val isFirstPresenterCreation = localPresenterId == PRESENTER_NOT_FOUND
             if (!isFirstPresenterCreation) {
                 //TODO: handle don't keep activities & startActivityForResult
-                MVPLogger.log("*** isFirstPresenterCreation must be true! ***")
+                MVPLogger.log("*** isFirstPresenterCreation must be always true! ***")
 //                throw IllegalStateException("isFirstPresenterCreation must be true!")
             }
 
@@ -127,11 +130,13 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
     }
 
     private fun attachViewToPresenter() {
+        @Suppress("UNCHECKED_CAST")
         presenter.attachView(view as TView)
         log("#ATTACH_VIEW# ${view.javaClass.name} -> ${presenter.javaClass.name}")
     }
 
     private fun detachViewFromPresenter() {
+        @Suppress("UNCHECKED_CAST")
         presenter.detachView(view as TView)
         log("#DETACH_VIEW# ${view.javaClass.name} -> ${presenter.javaClass.name}")
     }
