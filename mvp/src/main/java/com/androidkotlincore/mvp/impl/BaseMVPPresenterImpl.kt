@@ -166,6 +166,6 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
         viewStateDelegate.onDestroyed(presenterName)
 
         mainThreadHandler.removeCallbacksAndMessages(null)
-        subscriptions.clearSubscriptionsAndJobs()
+        subscriptions.cancelAllSubscription()
     }
 }
