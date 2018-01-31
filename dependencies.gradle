@@ -147,7 +147,7 @@ static def addRepos(RepositoryHandler handler) {
     handler.jcenter()
     handler.maven {
         url "https://jitpack.io"
-//        url "https://dl.bintray.com/peterilchenko/AndroidKotlinCore/"
+        url 'https://dl.bintray.com/peterilchenko/AndroidKotlinCore/'
     }
 }
 ext.addRepos = this.&addRepos
