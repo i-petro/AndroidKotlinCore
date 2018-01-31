@@ -90,6 +90,7 @@ dependencies {
 
     //modules
     implementation deps.entityconverter
+    implementation deps.mvp
 
     //support
     implementation deps.support.appcompat
@@ -100,13 +101,13 @@ dependencies {
     implementation deps.support.constraintLayout
 
     //rx
-//    implementation deps.rx.android
-//    implementation deps.rx.java
+    implementation deps.rx.android
+    implementation deps.rx.java
 
     //coroutines
     implementation deps.coroutines.core
     implementation deps.coroutines.android
-//    implementation deps.coroutines.rx
+    implementation deps.coroutines.rx
 
     //kotlin
     implementation deps.kotlin.stdlib

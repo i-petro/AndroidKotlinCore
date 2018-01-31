@@ -1,1 +1,1 @@
-include ':sample', ':entityconverter'
+include ':sample', ':entityconverter', ':mvp'

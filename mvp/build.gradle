@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android'
 
 ext {
     bintrayRepo = 'AndroidKotlinCore'
-    bintrayName = 'entityconverter'
+    bintrayName = 'mvp'
 
     publishedGroupId = 'com.androidkotlincore'
-    libraryName = 'EntityConverter'
-    artifact = 'entityconverter'
+    libraryName = 'mvp'
+    artifact = 'mvp'
 
-    libraryDescription = 'Entity converter for Kotlin'
+    libraryDescription = 'Simple MVP implementation using Kotlin'
 
     siteUrl = 'https://github.com/i-petro/AndroidKotlinCore'
     gitUrl = 'https://github.com/i-petro/AndroidKotlinCore.git'
@@ -50,14 +50,29 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.kotlin.stdlib
 
-    testImplementation deps.tests.junit
+    implementation deps.support.appcompat
+    implementation deps.support.annotations
+
+    implementation deps.coroutines.core
+    implementation deps.coroutines.android
+
+    implementation deps.kotlin.stdlib
 }
 
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
 
 // Place it at the end of the file
 //apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
 //apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 //
-//tasks.findByPath(":entityconverter:javadoc").enabled = false
+//tasks.findByPath(":mvp:javadoc").enabled = false
+
+//          ./gradlew bintrayUpload
+//          ./gradlew install
+
+
