@@ -15,7 +15,7 @@ ext {
     siteUrl = 'https://github.com/i-petro/AndroidKotlinCore'
     gitUrl = 'https://github.com/i-petro/AndroidKotlinCore.git'
 
-    libraryVersion = '0.0.1'
+    libraryVersion = '0.0.2'
 
     developerId = 'i-petro'
     developerName = 'Peter Ilchenko'
@@ -56,26 +56,17 @@ dependencies {
     implementation deps.support.appcompat
     implementation deps.support.annotations
 
-    implementation deps.coroutines.core
-    implementation deps.coroutines.android
-
     implementation deps.rx.android
     implementation deps.rx.java
 
     implementation deps.kotlin.stdlib
 }
 
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
-
 // Place it at the end of the file
 //apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
 //apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 //
-//tasks.findByPath(":mvp:javadoc").enabled = false
+//tasks.findByPath(":mvp-rx:javadoc").enabled = false
 
 //          ./gradlew bintrayUpload
 //          ./gradlew install
