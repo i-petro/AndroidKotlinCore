@@ -8,8 +8,9 @@ def deps = [:]
 
 //=============================================== MODULES===========================================
 deps.mvp = project(":mvp")
+//deps.mvp = 'com.androidkotlincore:mvp:0.0.1'
 //deps.entityconverter = project(":entityconverter")
-deps.entityconverter = 'com.androidkotlincore:entityconverter:0.0.1'
+deps.entityconverter = 'com.androidkotlincore:entityconverter:0.0.3'
 //=============================================== SUPPORT ==========================================
 versions.support = "27.0.2"
 
@@ -146,8 +147,7 @@ static def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
     handler.maven {
-        url "https://jitpack.io"
-        url 'https://dl.bintray.com/peterilchenko/AndroidKotlinCore/'
+        url "https://dl.bintray.com/peterilchenko/AndroidKotlinCore/"
     }
 }
 ext.addRepos = this.&addRepos

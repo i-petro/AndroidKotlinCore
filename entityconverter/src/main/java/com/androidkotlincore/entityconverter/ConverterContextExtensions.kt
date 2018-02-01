@@ -27,20 +27,6 @@ inline fun <reified IN : Any, reified OUT : Any> ConvertersContext.registerConve
  * @param outClass  output class - concrete as possible
  * @param converter convert function reference
  */
-fun <IN : Any, OUT : Any> ConvertersContext.registerConverter(
-        inClass: Class<IN>,
-        outClass: Class<OUT>,
-        converter: (IN, Any?, ConvertersContext) -> OUT) {
-    registerConverter(inClass, outClass, converter::invoke)
-}
-
-/**
- * Registers converter between two entity classes
- *
- * @param inClass   input class - abstract as possible
- * @param outClass  output class - concrete as possible
- * @param converter convert function reference
- */
 inline fun <IN : Any, OUT : Any> ConvertersContext.registerConverter(
         inClass: Class<IN>,
         outClass: Class<OUT>,

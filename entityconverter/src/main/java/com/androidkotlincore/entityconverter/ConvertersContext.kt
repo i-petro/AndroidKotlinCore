@@ -29,6 +29,20 @@ interface ConvertersContext {
                     OUT>)
 
     /**
+     * Registers converter between two entity classes
+     *
+     * @param inClass   input class - abstract as possible
+     * @param outClass  output class - concrete as possible
+     * @param converter convert function reference
+     */
+    fun <IN : Any, OUT : Any> registerConverter(
+            inClass: Class<IN>,
+            outClass: Class<OUT>,
+            converter: (IN, Any?, ConvertersContext) -> OUT) {
+        registerConverter(inClass, outClass, converter::invoke)
+    }
+
+    /**
      * Convert single object to another type.
      *
      * @param input     some object
