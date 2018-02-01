@@ -35,7 +35,7 @@ interface ConvertersContext {
      * @param outClass  output class - concrete as possible
      * @param converter convert function reference
      */
-    fun <IN : Any, OUT : Any> ConvertersContext.registerConverter(
+    fun <IN : Any, OUT : Any> registerConverter(
             inClass: Class<IN>,
             outClass: Class<OUT>,
             converter: (IN, Any?, ConvertersContext) -> OUT) {

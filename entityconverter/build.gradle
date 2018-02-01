@@ -61,3 +61,6 @@ apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 
 tasks.findByPath(":entityconverter:javadoc").enabled = false
+
+//          ./gradlew bintrayUpload
+//          ./gradlew install
