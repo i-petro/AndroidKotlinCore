@@ -7,11 +7,14 @@ versions.play_services_gradle_plugin = '3.1.0'
 def deps = [:]
 
 //=============================================== MODULES===========================================
+//deps.mvp_rx1 = project(":mvp-rx1")
+deps.mvp_rx1 = 'com.androidkotlincore:mvp-rx1:0.0.3'
+
 //deps.mvp_rx = project(":mvp-rx")
-deps.mvp_rx = 'com.androidkotlincore:mvp-rx:0.0.2'
+deps.mvp_rx = 'com.androidkotlincore:mvp-rx:0.0.3'
 //
 //deps.mvp = project(":mvp")
-deps.mvp = 'com.androidkotlincore:mvp:0.0.2'
+deps.mvp = 'com.androidkotlincore:mvp:0.0.3'
 //
 //deps.entityconverter = project(":entityconverter")
 deps.entityconverter = 'com.androidkotlincore:entityconverter:0.0.3'

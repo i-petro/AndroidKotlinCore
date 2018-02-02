@@ -51,9 +51,9 @@ abstract class BaseMVPActivity<TView, TPresenter>(private val mvpDelegate: MVPAc
         setContentView(layoutId)
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.putBundle(EXTRA_ARGS, args)
+        outState.putBundle(EXTRA_ARGS, args)
     }
 
     private companion object {
