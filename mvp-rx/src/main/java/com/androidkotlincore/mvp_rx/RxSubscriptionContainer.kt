@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable
 interface RxSubscriptionContainer : SubscriptionContainer {
     fun addSubscription(rxSubscription: Disposable): Disposable
     fun removeSubscription(rxSubscription: Disposable): Disposable
-    override fun cancelAllSubscription()
+    override fun cancelAllSubscriptions()
 
     operator fun plusAssign(rxSubscription: Disposable)
     operator fun minusAssign(rxSubscription: Disposable)
@@ -22,8 +22,8 @@ interface RxSubscriptionContainer : SubscriptionContainer {
 class RxSubscriptionsContainerDelegate: SubscriptionsContainerDelegate(),  RxSubscriptionContainer {
     private val subscriptions = CompositeDisposable()
 
-    override fun cancelAllSubscription() {
-        super.cancelAllSubscription()
+    override fun cancelAllSubscriptions() {
+        super.cancelAllSubscriptions()
         subscriptions.clear()
     }
 

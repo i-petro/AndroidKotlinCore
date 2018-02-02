@@ -11,7 +11,7 @@ import rx.subscriptions.CompositeSubscription
 interface RxSubscriptionContainer : SubscriptionContainer {
     fun addSubscription(rxSubscription: Subscription): Subscription
     fun removeSubscription(rxSubscription: Subscription): Subscription
-    override fun cancelAllSubscription()
+    override fun cancelAllSubscriptions()
 
     operator fun plusAssign(rxSubscription: Subscription)
     operator fun minusAssign(rxSubscription: Subscription)
@@ -22,8 +22,8 @@ interface RxSubscriptionContainer : SubscriptionContainer {
 class RxSubscriptionsContainerDelegate: SubscriptionsContainerDelegate(), RxSubscriptionContainer {
     private val subscriptions = CompositeSubscription()
 
-    override fun cancelAllSubscription() {
-        super.cancelAllSubscription()
+    override fun cancelAllSubscriptions() {
+        super.cancelAllSubscriptions()
         subscriptions.clear()
     }
 
