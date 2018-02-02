@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android'
 
 ext {
     bintrayRepo = 'AndroidKotlinCore'
-    bintrayName = 'mvp-rx'
+    bintrayName = 'mvp-rx1'
 
     publishedGroupId = 'com.androidkotlincore'
-    libraryName = 'mvp-rx'
-    artifact = 'mvp-rx'
+    libraryName = 'mvp-rx1'
+    artifact = 'mvp-rx1'
 
-    libraryDescription = 'Simple MVP implementation using Kotlin and RxJava 2'
+    libraryDescription = 'Simple MVP implementation using Kotlin and RxJava 1'
 
     siteUrl = 'https://github.com/i-petro/AndroidKotlinCore'
     gitUrl = 'https://github.com/i-petro/AndroidKotlinCore.git'
@@ -53,11 +53,11 @@ dependencies {
 
     implementation deps.mvp
 
-    implementation deps.support.appcompat
     implementation deps.support.annotations
 
-    implementation deps.rx.android
-    implementation deps.rx.java
+    implementation deps.rx1.android
+    implementation deps.rx1.java
+    implementation deps.rx1.proguard
 
     implementation deps.kotlin.stdlib
 }
@@ -66,7 +66,7 @@ dependencies {
 //apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
 //apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 //
-//tasks.findByPath(":mvp-rx:javadoc").enabled = false
+//tasks.findByPath(":mvp-rx1:javadoc").enabled = false
 
 //          ./gradlew bintrayUpload
 //          ./gradlew install

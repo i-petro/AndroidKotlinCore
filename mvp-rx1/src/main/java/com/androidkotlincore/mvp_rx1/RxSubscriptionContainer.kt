@@ -1,47 +1,47 @@
-package com.androidkotlincore.mvp_rx
+package com.androidkotlincore.mvp_rx1
 
 import com.androidkotlincore.mvp.impl.SubscriptionContainer
 import com.androidkotlincore.mvp.impl.SubscriptionsContainerDelegate
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import rx.Subscription
+import rx.subscriptions.CompositeSubscription
 
 /**
  * Created by Peter on 31.01.2018.
  */
 interface RxSubscriptionContainer : SubscriptionContainer {
-    fun addSubscription(rxSubscription: Disposable): Disposable
-    fun removeSubscription(rxSubscription: Disposable): Disposable
+    fun addSubscription(rxSubscription: Subscription): Subscription
+    fun removeSubscription(rxSubscription: Subscription): Subscription
     override fun cancelAllSubscriptions()
 
-    operator fun plusAssign(rxSubscription: Disposable)
-    operator fun minusAssign(rxSubscription: Disposable)
+    operator fun plusAssign(rxSubscription: Subscription)
+    operator fun minusAssign(rxSubscription: Subscription)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class RxSubscriptionsContainerDelegate: SubscriptionsContainerDelegate(),  RxSubscriptionContainer {
-    private val subscriptions = CompositeDisposable()
+class RxSubscriptionsContainerDelegate: SubscriptionsContainerDelegate(), RxSubscriptionContainer {
+    private val subscriptions = CompositeSubscription()
 
     override fun cancelAllSubscriptions() {
         super.cancelAllSubscriptions()
         subscriptions.clear()
     }
 
-    override fun addSubscription(rxSubscription: Disposable): Disposable {
+    override fun addSubscription(rxSubscription: Subscription): Subscription {
         subscriptions.add(rxSubscription)
         return rxSubscription
     }
 
-    override fun removeSubscription(rxSubscription: Disposable): Disposable {
+    override fun removeSubscription(rxSubscription: Subscription): Subscription {
         subscriptions.remove(rxSubscription)
         return rxSubscription
     }
 
-    override fun plusAssign(rxSubscription: Disposable) {
+    override fun plusAssign(rxSubscription: Subscription) {
         addSubscription(rxSubscription)
     }
 
-    override fun minusAssign(rxSubscription: Disposable) {
+    override fun minusAssign(rxSubscription: Subscription) {
         removeSubscription(rxSubscription)
     }
 }
@@ -50,7 +50,7 @@ class RxSubscriptionsContainerDelegate: SubscriptionsContainerDelegate(),  RxSub
 /**
  * Adds current subscription to the composite subscription
  */
-operator fun CompositeDisposable.plusAssign(subscription: Disposable) {
+operator fun CompositeSubscription.plusAssign(subscription: Subscription) {
     add(subscription)
 }
 
@@ -58,7 +58,7 @@ operator fun CompositeDisposable.plusAssign(subscription: Disposable) {
  * Adds current subscription to the subscription container
  * Always use this method to prevent memory leaks!
  */
-fun Disposable.bind(subscriptionContainer: RxSubscriptionContainer): Disposable {
+fun Subscription.bind(subscriptionContainer: RxSubscriptionContainer): Subscription {
     subscriptionContainer += this
     return this
 }
@@ -67,7 +67,7 @@ fun Disposable.bind(subscriptionContainer: RxSubscriptionContainer): Disposable 
  * Adds current composite subscription to the subscription container
  * Always use this method to prevent memory leaks!
  */
-fun Disposable.bind(compositeSubscription: CompositeDisposable): Disposable {
+fun Subscription.bind(compositeSubscription: CompositeSubscription): Subscription {
     compositeSubscription += this
     return this
 }

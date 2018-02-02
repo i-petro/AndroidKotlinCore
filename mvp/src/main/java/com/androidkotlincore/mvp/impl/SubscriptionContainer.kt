@@ -6,7 +6,7 @@ import kotlinx.coroutines.experimental.android.UI
 interface SubscriptionContainer {
     fun addJob(job: Job): Job
     fun removeJob(job: Job): Job
-    fun cancelAllSubscription()
+    fun cancelAllSubscriptions()
 
     operator fun plusAssign(job: Job)
     operator fun minusAssign(job: Job)
@@ -25,7 +25,7 @@ open class SubscriptionsContainerDelegate : SubscriptionContainer {
         return job
     }
 
-    override fun cancelAllSubscription() {
+    override fun cancelAllSubscriptions() {
         jobs.forEach { it.cancel() }
         jobs.clear()
     }

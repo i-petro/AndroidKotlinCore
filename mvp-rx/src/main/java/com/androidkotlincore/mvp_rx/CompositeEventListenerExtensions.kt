@@ -8,6 +8,11 @@ import io.reactivex.Observable
  */
 fun <TEvent> CompositeEventListener<TEvent>.rx(): Observable<TEvent> {
     return Observable.create<TEvent> { emitter ->
-        subscribe { event -> emitter.onNext(event) }
+        val sub = subscribe { event ->
+            if (!emitter.isDisposed) {
+                emitter.onNext(event)
+            }
+        }
+        emitter.setCancellable { unSubscribe(sub) }
     }
 }

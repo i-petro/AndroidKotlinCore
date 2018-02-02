@@ -15,7 +15,7 @@ ext {
     siteUrl = 'https://github.com/i-petro/AndroidKotlinCore'
     gitUrl = 'https://github.com/i-petro/AndroidKotlinCore.git'
 
-    libraryVersion = '0.0.2'
+    libraryVersion = '0.0.5'
 
     developerId = 'i-petro'
     developerName = 'Peter Ilchenko'
