@@ -7,6 +7,7 @@ import com.androidkotlincore.mvp.*
 import com.androidkotlincore.mvp.addons.CompositeEventListener
 import com.androidkotlincore.mvp.addons.StateExecutor
 import com.androidkotlincore.mvp.addons.impl.BehaviourCompositeEventListener
+import com.androidkotlincore.mvp.addons.impl.SimpleCompositeEventListener
 import com.androidkotlincore.mvp.impl.MVPLogger.log
 import com.androidkotlincore.mvp.impl.permissions.OnRequestPermissionsResultEvent
 import com.androidkotlincore.mvp.impl.permissions.PermissionsManager
@@ -30,15 +31,15 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
     private val mainThreadHandler = Handler(Looper.getMainLooper())
     private var mvpView = StateExecutor<TView?, TView>(initState = null) { it != null }
     //view lifecycle
-    val viewLifecycle: CompositeEventListener<Lifecycle.Event> = BehaviourCompositeEventListener()
+    val viewLifecycle: CompositeEventListener<Lifecycle.Event> = SimpleCompositeEventListener()
     private var lifecycleListener: ((Lifecycle.Event) -> Unit)? = null
 
     //on activity result
-    val onActivityResult: CompositeEventListener<OnActivityResultEvent> = BehaviourCompositeEventListener()
+    val onActivityResult: CompositeEventListener<OnActivityResultEvent> = SimpleCompositeEventListener()
     private var onActivityResultListener: ((OnActivityResultEvent) -> Unit)? = null
 
     //on request permission result
-    private val onRequestPermissionsResultDelegate: CompositeEventListener<OnRequestPermissionsResultEvent> = BehaviourCompositeEventListener()
+    private val onRequestPermissionsResultDelegate: CompositeEventListener<OnRequestPermissionsResultEvent> = SimpleCompositeEventListener()
     private var onRequestPermissionsListener: ((OnRequestPermissionsResultEvent) -> Unit)? = null
     val permissions: PermissionsManager by lazy {
         PermissionsManagerDelegate(onRequestPermissionsResultDelegate, view = { getView() })

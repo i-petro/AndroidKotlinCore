@@ -46,6 +46,13 @@ playServices.locations = ["com.google.android.gms:play-services-location:$versio
     exclude module: 'support-v7'
 }]
 playServices.play_services_gradle_plugin = "com.google.gms:google-services:$versions.play_services_gradle_plugin"
+
+//fireBase
+versions.firebase = '11.8.0'
+playServices.firebase_core = "com.google.firebase:firebase-core:$versions.firebase"
+playServices.firebase_auth = "com.google.firebase:firebase-auth:$versions.firebase"
+playServices.firebase_auth_service = "com.google.android.gms:play-services-auth:$versions.firebase"
+
 deps.playServices = playServices
 
 //============================================== KOTLIN ============================================

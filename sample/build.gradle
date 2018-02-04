@@ -129,6 +129,11 @@ dependencies {
     implementation deps.support.recyclerview
     implementation deps.support.constraintLayout
 
+    //firebase
+    implementation deps.playServices.firebase_core
+    implementation deps.playServices.firebase_auth
+    implementation deps.playServices.firebase_auth_service
+
     //coroutines
     implementation deps.coroutines.core
     implementation deps.coroutines.android
@@ -147,3 +152,5 @@ dependencies {
     //kotlin
     implementation deps.kotlin.stdlib
 }
+
+apply plugin: 'com.google.gms.google-services'

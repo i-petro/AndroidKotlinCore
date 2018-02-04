@@ -1,4 +1,4 @@
-package com.androidkotlincore.sample.presentation.screens.container
+package com.androidkotlincore.sample.presentation.screen.container
 
 import com.androidkotlincore.sample.presentation.base.BaseView
 
