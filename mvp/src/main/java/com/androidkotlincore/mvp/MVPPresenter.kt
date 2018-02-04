@@ -16,6 +16,6 @@ interface MVPPresenter<TPresenter, TView>
     fun attachView(view: TView)
     fun detachView(view: TView)
 
-    fun onCreated(isFirstCreation: Boolean)
+    fun onCreated()
     fun onDestroyed()
 }
