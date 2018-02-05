@@ -8,6 +8,8 @@ import com.androidkotlincore.sample.presentation.screen.container.FragmentContai
 import com.androidkotlincore.sample.presentation.screen.container.FragmentContainerPresenterImpl
 import com.androidkotlincore.sample.presentation.screen.login.LoginFragment
 import com.androidkotlincore.sample.presentation.screen.login.LoginPresenterImpl
+import com.androidkotlincore.sample.presentation.screen.splash.SplashActivity
+import com.androidkotlincore.sample.presentation.screen.splash.SplashPresenterImpl
 
 /**
  * Created by Peter on 04.02.2018.
@@ -15,6 +17,7 @@ import com.androidkotlincore.sample.presentation.screen.login.LoginPresenterImpl
 class MVPInjectorDelegate : MVPInjector {
     override fun createPresenter(viewJavaClass: Class<in MVPView<*, *>>, mvpTag: Bundle): MVPPresenter<*, *> =
             when (viewJavaClass) {
+                SplashActivity::class.java -> SplashPresenterImpl()
                 FragmentContainerActivity::class.java -> FragmentContainerPresenterImpl()
                 LoginFragment::class.java -> LoginPresenterImpl()
                 else -> throwPresenterNotFound(viewJavaClass, mvpTag)

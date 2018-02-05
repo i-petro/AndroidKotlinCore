@@ -2,8 +2,7 @@ package com.androidkotlincore.sample.core.di
 
 import android.content.Context
 import com.androidkotlincore.sample.app.App
-import com.androidkotlincore.sample.core.di.module.AndroidModule
-import com.androidkotlincore.sample.core.di.module.AppModule
+import com.androidkotlincore.sample.core.di.module.*
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -14,7 +13,10 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     AppModule::class,
-    AndroidModule::class
+    AndroidModule::class,
+    ScreenProviderModule::class,
+    InteractorModule::class,
+    GoogleSignInModule::class
 ])
 interface AppComponent : AppGraph {
 
