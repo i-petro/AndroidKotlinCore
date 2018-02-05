@@ -10,6 +10,7 @@ import android.os.Bundle
 import com.androidkotlincore.mvp.ViewPersistenceStorage
 import com.androidkotlincore.mvp.*
 import com.androidkotlincore.mvp.addons.CompositeEventListener
+import com.androidkotlincore.mvp.addons.EmitableCompositeEventListener
 import com.androidkotlincore.mvp.addons.impl.BehaviourCompositeEventListener
 import com.androidkotlincore.mvp.impl.MVPLogger.log
 import com.androidkotlincore.mvp.impl.permissions.OnRequestPermissionsResultEvent
@@ -54,9 +55,12 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
 
     ///////////////////////////////////// MVPView methods overriding ///////////////////////////////
     override val presenter: TPresenter by lazy { createOrRestorePresenter() }
-    override val lifecycle: CompositeEventListener<Lifecycle.Event> = BehaviourCompositeEventListener()
-    override val onActivityResult: CompositeEventListener<OnActivityResultEvent> = BehaviourCompositeEventListener()
-    override val onRequestPermissionResult: CompositeEventListener<OnRequestPermissionsResultEvent> = BehaviourCompositeEventListener()
+    internal val lifecycleEmitter: EmitableCompositeEventListener<Lifecycle.Event> = BehaviourCompositeEventListener()
+    override val lifecycle: CompositeEventListener<Lifecycle.Event> = lifecycleEmitter
+    internal val onActivityResultEmitter: EmitableCompositeEventListener<OnActivityResultEvent> = BehaviourCompositeEventListener()
+    override val onActivityResult: CompositeEventListener<OnActivityResultEvent> = onActivityResultEmitter
+    internal val onRequestPermissionResultEmitter: EmitableCompositeEventListener<OnRequestPermissionsResultEvent> = BehaviourCompositeEventListener()
+    override val onRequestPermissionResult: CompositeEventListener<OnRequestPermissionsResultEvent> = onRequestPermissionResultEmitter
     override val contextNotNull: Context
         get() {
             val localView = view
@@ -70,7 +74,7 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        onActivityResult.emit(OnActivityResultEvent(requestCode, resultCode, data))
+        onActivityResultEmitter.emit(OnActivityResultEvent(requestCode, resultCode, data))
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +95,7 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
         }
 
         if (event != Lifecycle.Event.ON_ANY) {
-            lifecycle.emit(event)
+            lifecycleEmitter.emit(event)
         }
     }
 

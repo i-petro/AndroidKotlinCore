@@ -35,12 +35,6 @@ class LoginPresenterImpl : BasePresenterImpl<LoginPresenter, LoginView>(), Login
         DI.component.inject(this)
     }
 
-    override fun onCreated() {
-        super.onCreated()
-
-
-    }
-
     override fun signInByGoogle() {
         launchUI {
             try {

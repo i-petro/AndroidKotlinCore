@@ -50,7 +50,7 @@ class MVPFragmentDelegate<TPresenter, TView, in V>(presentersStorage: Presenters
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && view.shouldShowRequestPermissionRationale(permissions[it])
         }
 
-        onRequestPermissionResult.emit(OnRequestPermissionsResultEvent(
+        onRequestPermissionResultEmitter.emit(OnRequestPermissionsResultEvent(
                 requestCode,
                 permissions.toList(),
                 grantResults.toList(),
