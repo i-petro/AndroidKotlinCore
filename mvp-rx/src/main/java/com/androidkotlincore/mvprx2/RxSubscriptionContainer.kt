@@ -1,4 +1,4 @@
-package com.androidkotlincore.mvp_rx
+package com.androidkotlincore.mvprx2
 
 import com.androidkotlincore.mvp.impl.SubscriptionContainer
 import com.androidkotlincore.mvp.impl.SubscriptionsContainerDelegate

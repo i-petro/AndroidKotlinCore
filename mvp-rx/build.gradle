@@ -4,11 +4,11 @@ apply plugin: 'kotlin-android'
 
 ext {
     bintrayRepo = 'AndroidKotlinCore'
-    bintrayName = 'mvp-rx'
+    bintrayName = 'mvp-rx2'
 
     publishedGroupId = 'com.androidkotlincore'
-    libraryName = 'mvp-rx'
-    artifact = 'mvp-rx'
+    libraryName = 'mvp-rx2'
+    artifact = 'mvp-rx2'
 
     libraryDescription = 'Simple MVP implementation using Kotlin and RxJava 2'
 
