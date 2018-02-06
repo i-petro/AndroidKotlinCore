@@ -16,7 +16,7 @@ class LoginFragment : BaseFragment<LoginView, LoginPresenter>(), LoginView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btnGoogleSignIn.setOnClickListener { presenter.signInByGoogle() }
+        btnGoogleSignIn.setOnClickListener { presenter.signInWithGoogle() }
         btnGoogleLogout.setOnClickListener { presenter.logout() }
     }
 

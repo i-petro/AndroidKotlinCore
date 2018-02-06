@@ -6,6 +6,6 @@ import com.androidkotlincore.sample.presentation.base.BasePresenter
  * Created by Peter on 04.02.2018.
  */
 interface LoginPresenter : BasePresenter<LoginPresenter, LoginView> {
-    fun signInByGoogle()
+    fun signInWithGoogle()
     fun logout()
 }

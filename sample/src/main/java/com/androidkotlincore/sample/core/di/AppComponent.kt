@@ -16,7 +16,8 @@ import javax.inject.Singleton
     AndroidModule::class,
     ScreenProviderModule::class,
     InteractorModule::class,
-    GoogleSignInModule::class
+    GoogleSignInModule::class,
+    ConvertersModule::class
 ])
 interface AppComponent : AppGraph {
 
