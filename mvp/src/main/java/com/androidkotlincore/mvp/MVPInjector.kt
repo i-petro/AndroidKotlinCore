@@ -18,6 +18,8 @@ import android.os.Bundle
 interface MVPInjector {
     /**
      * This method must returns new [MVPPresenter] for [MVPView]
+     * @param viewJavaClass - key to select what presenter should be used
+     * @param mvpTag - bundle with additional keys to select different presenters for the same view class
      */
     fun createPresenter(viewJavaClass: Class<in MVPView<*, *>>, mvpTag: Bundle): MVPPresenter<*, *>
 }
