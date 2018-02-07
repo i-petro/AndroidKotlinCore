@@ -9,6 +9,9 @@ import com.androidkotlincore.mvp.impl.permissions.OnRequestPermissionsResultEven
 /**
  * Created by Peter on 05.01.2018.
  */
+/**
+ * MVP delegate for [android.app.Activity]
+ * */
 class MVPActivityDelegate<TPresenter, TView, in V>(presentersStorage: PresentersStorage<TPresenter, TView>)
     : AbstractMVPDelegate<TPresenter, TView>(presentersStorage)
 
@@ -21,11 +24,17 @@ class MVPActivityDelegate<TPresenter, TView, in V>(presentersStorage: Presenters
 
     private lateinit var view: V
 
+    /**
+     * @see [AbstractMVPDelegate.init]
+     * */
     fun init(view: V) {
         this.view = view
         super.init(view)
     }
 
+    /**
+     * @see [AbstractMVPDelegate.retainPresenterInstance]
+     * */
     override fun retainPresenterInstance(): Boolean {
         return view.isChangingConfigurations || !view.isFinishing
     }

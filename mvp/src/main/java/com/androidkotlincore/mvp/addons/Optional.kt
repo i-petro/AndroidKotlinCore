@@ -204,21 +204,21 @@ class Optional<T> {
      *  * the present values are "equal to" each other via `equals()`.
      *
      *
-     * @param obj an object to be tested for equality
+     * @param other an object to be tested for equality
      * @return {code true} if the other object is "equal to" this object
      * otherwise `false`
      */
-    override fun equals(obj: Any?): Boolean {
-        if (this === obj) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
 
-        if (obj !is Optional<*>) {
+        if (other !is Optional<*>) {
             return false
         }
 
-        val other = obj as Optional<*>?
-        return value == other!!.value
+        val res = other as Optional<*>?
+        return value == res!!.value
     }
 
     /**
@@ -268,6 +268,7 @@ class Optional<T> {
          * @return an empty `Optional`
         </T> */
         fun <T> empty(): Optional<T> {
+            @Suppress("UNCHECKED_CAST")
             return EMPTY as Optional<T>
         }
 

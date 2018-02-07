@@ -7,11 +7,42 @@ import java.util.concurrent.atomic.AtomicLong
 /**
  * Created by Peter on 23.01.18.
  */
+/**
+ * Storage for presenters
+ * */
 interface PresentersStorage<TPresenter : MVPPresenter<TPresenter, TView>, TView : MVPView<TView, TPresenter>> {
 
+    /**
+     * Provides unique presenter id
+     *
+     * @return presenter id
+     * */
     fun generateId(): Long
+
+    /**
+     * Removes presenter from storage
+     *
+     * @param view - [MVPView], first key
+     * @param id - unique id, second key
+     * */
     fun remove(view: MVPView<TView, TPresenter>, id: Long)
+
+    /**
+     * Returns presenter from storage
+     *
+     * @param view - [MVPView], first key
+     * @param id - unique id, second key
+     * @return [TPresenter]
+     * */
     fun get(view: MVPView<TView, TPresenter>, id: Long): TPresenter?
+
+    /**
+     * Puts presenter into storage
+     *
+     * @param view - [MVPView], first key
+     * @param id - unique id, second key
+     * @return [TPresenter]
+     * */
     fun put(view: MVPView<TView, TPresenter>, id: Long, presenter: TPresenter): TPresenter
 }
 

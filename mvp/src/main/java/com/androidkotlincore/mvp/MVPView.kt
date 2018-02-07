@@ -13,6 +13,11 @@ import android.os.Bundle
  * @see [com.androidkotlincore.mvp.impl.BaseMVPActivity]
  * @see [com.androidkotlincore.mvp.impl.BaseMVPFragment]
  * @see [com.androidkotlincore.mvp.impl.BaseMVPDialog]
+ * @property presenter - presenter for this view
+ * @property contextNotNull - provides non null context
+ * @property mvpTag - view bundle. Contains passed to view arguments. Also can contain key
+ * for [com.androidkotlincore.mvp.MVPInjector] to select what presenter should be provided for this view.
+ * It is useful when you want to reuse view with different presenters
  */
 interface MVPView<TView, TPresenter> : LifecycleOwner
         where TView : MVPView<TView, TPresenter>,
