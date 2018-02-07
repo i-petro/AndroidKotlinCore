@@ -1,6 +1,6 @@
 # AndroidKotlinCore [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome) <img src="images/label-android.svg" height="19">
 
-## MVP implementation
+## MVP implementation [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp/_latestVersion)
 * saving Presenter's instance during screen rotation
 * don't keep activities mode support
 * onActivityResult events handling
@@ -8,9 +8,10 @@
 * lifecycle events handling
 
 ## MVP-RX support library
-* supported RxJava 1, 2
+### MVP-RX 1 [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx1/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx1/_latestVersion)
+### MVP-RX 2 [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx2/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx2/_latestVersion)
 
-## Entity converters 
+## Entity converters [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/entityconverter/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/entityconverter/_latestVersion)
 * support for converting models of different levels of abstraction
 
 #### License ####
