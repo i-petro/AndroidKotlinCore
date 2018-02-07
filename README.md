@@ -12,7 +12,7 @@
 * _RxJava 1_ support
 * _RxJava 2_ support
 
-## Entity converters [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/entityconverter/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/entityconverter/_latestVersion)
+## Entity converters
 * support for converting models of different levels of abstraction
 * support for collections converting
 * support for interfaces converting
