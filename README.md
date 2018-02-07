@@ -17,6 +17,31 @@
 * support for converting models of different levels of abstraction ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Entity-converter)***
 * support for collections converting ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Entity-converter)***
 * support for interfaces converting ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Entity-converter)***
+### Sample:
+```kotlin
+    interface User {
+        val name: String
+        val password: String
+    }
+
+    data class UserRest(val name: String, val password: String)
+    data class UserDb(val name: String, val password: String) 
+    data class UserImpl(override val name: String, override val password: String): User
+
+    val context: ConvertersContext = ConvertersContextImpl()
+    context.registerConverter { input: User -> UserDb(input.name, input.password) }
+    context.registerConverter { input: UserRest -> UserImpl(input.name, input.password) }
+
+    val userDb = UserDb("Name1", "Password1")
+    val userRest = UserRest("Name1", "Password1")
+    val userImpl = UserImpl("Name1", "Password1")
+
+    val convertedRestToImpl: User = context.convert(userRest)
+    val convertedImplToDb: UserDb = context.convert(userImpl)
+
+    assertEquals(userImpl, convertedRestToImpl)
+    assertEquals(userDb, convertedImplToDb)
+```
 
 ## Installation
 You can use any of this dependencies
