@@ -17,16 +17,32 @@ import java.util.concurrent.atomic.AtomicInteger
 */
 typealias SupportFragment = android.support.v4.app.Fragment
 
+/**
+ * Delegate for [PermissionsManager]
+ *
+ * @param permissionsObservable - observer for [OnRequestPermissionsResultEvent] events
+ * @param view - suspend function which belongs to view.
+ * View should be one of:
+ * [android.app.Activity],
+ * [android.app.Fragment],
+ * [SupportFragment],
+ * */
 class PermissionsManagerDelegate(
         private val permissionsObservable: CompositeEventListener<OnRequestPermissionsResultEvent>,
         private val view: suspend () -> Any) : PermissionsManager {
 
+    /**
+     * @see [PermissionsManager.requestPermissions]
+     * */
     override suspend fun requestPermissions(permissions: List<String>): RequestPermissionsResult {
         //we always use UI thread to work with permissions
         val result = async(UI) { requestPermissionsImpl(permissions) }.await()
         return result
     }
 
+    /**
+     * @see [PermissionsManager.requestPermissionsOrThrow]
+     * */
     override suspend fun requestPermissionsOrThrow(permissions: List<String>): RequestPermissionsResult {
         val result = requestPermissions(permissions)
         if (!result.isAllGranted) {
@@ -35,12 +51,21 @@ class PermissionsManagerDelegate(
         return result
     }
 
+    /**
+     * @see [PermissionsManager.shouldShowRequestPermissionRationale]
+     * */
     override suspend fun shouldShowRequestPermissionRationale(permission: String): Boolean {
         //we always use UI thread to work with permissions
         val result = async(UI) { shouldShowRequestPermissionRationaleImpl(permission) }.await()
         return result
     }
 
+    /**
+     * Implementation of permissions request. Should be called on UI thread
+     *
+     * @param permissions - list of permissions to request
+     * @return [RequestPermissionsResult]
+     * */
     @UiThread
     private suspend fun requestPermissionsImpl(permissions: List<String>): RequestPermissionsResult {
         if (!isMarshmallow() || permissions.all { isPermissionGranted(it) }) {
@@ -72,6 +97,12 @@ class PermissionsManagerDelegate(
         }
     }
 
+    /**
+     * Implementation of permission rational status request. Should be called on UI thread
+     *
+     * @param permission - permission to check
+     * @return true if permission needs explanation
+     * */
     @UiThread
     private suspend fun shouldShowRequestPermissionRationaleImpl(permission: String): Boolean {
         if (!isMarshmallow()) return false
@@ -87,6 +118,12 @@ class PermissionsManagerDelegate(
         }
     }
 
+    /**
+     * Implementation of permission granted status request. Should be called on UI thread
+     *
+     * @param permission - permission to check
+     * @return true if permission is granted
+     * */
     @UiThread
     private suspend fun isPermissionGranted(permission: String): Boolean {
         if (!isMarshmallow()) return true
@@ -102,6 +139,12 @@ class PermissionsManagerDelegate(
         }
     }
 
+    /**
+     * Check if permission is revoked
+     *
+     * @param permission - permission to check
+     * @return true if permission is revoked
+     * */
     private suspend fun isPermissionRevoked(permission: String): Boolean {
         if (!isMarshmallow()) return false
 
@@ -118,6 +161,11 @@ class PermissionsManagerDelegate(
         return activity.packageManager.isPermissionRevokedByPolicy(permission, activity.packageName)
     }
 
+    /**
+     * Checks if permissions are available in system
+     *
+     * @return true if OS is Android 6 or higher
+     * */
     private fun isMarshmallow(): Boolean {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
     }
