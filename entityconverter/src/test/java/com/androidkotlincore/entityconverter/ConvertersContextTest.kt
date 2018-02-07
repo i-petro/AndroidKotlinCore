@@ -37,7 +37,7 @@ class ConvertersContextTest {
         context.registerConverter { input: User -> UserDb(input) }
 
         val userDb = UserDb("Name1", "Password1")
-        val userRest = UserDb("Name1", "Password1")
+        val userRest = UserRest("Name1", "Password1")
         val userImpl = UserImpl("Name1", "Password1")
 
         assertEquals(userDb, context.convert(userRest, UserDb::class.java))
