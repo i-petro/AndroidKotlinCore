@@ -7,8 +7,8 @@
 * _onActivityResult_ events handling
 * _permissions_ management
 * _lifecycle_ events handling
-* saving and restoring View state without onSaveInstanceState() and Bundle
-* Kotlin coroutines support
+* saving and restoring View state without _onSaveInstanceState()_ and _Bundle_
+* Kotlin _coroutines_ support
 
 ## MVP-RX support library
 ### MVP-RX 1 [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx1/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx1/_latestVersion)
