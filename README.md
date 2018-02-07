@@ -9,6 +9,8 @@
 * _lifecycle_ events handling
 * saving and restoring View state without _onSaveInstanceState()_ and _Bundle_
 * Kotlin _coroutines_ support
+* _RxJava 1_ support
+* _RxJava 2_ support
 
 ## MVP-RX support library
 Library have few simple extensions for RxJava 1 and RxJava 2 support.
@@ -32,6 +34,15 @@ dependencies {
 }
 ```
 or just download zip and import module to be able to modify the sources
+
+### Latest versions
+
+| Module  |  Version  |
+|---|---|
+| MVP implementation  | [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp/_latestVersion)  |
+|   MVP for RxJava 1 | [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx1/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx1/_latestVersion)  |
+| MVP for RxJava 2  |   [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx2/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx2/_latestVersion) |
+| Entity converters |  [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/entityconverter/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/entityconverter/_latestVersion) |
 
 #### License ####
 * * *
