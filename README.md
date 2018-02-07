@@ -1,11 +1,14 @@
 # AndroidKotlinCore [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome) <img src="images/label-android.svg" height="19">
 
 ## MVP implementation [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp/_latestVersion)
+### Features:
 * saving Presenter's instance during screen rotation
 * don't keep activities mode support
 * onActivityResult events handling
 * permissions management
 * lifecycle events handling
+* restoring View state without onSaveInstanceState()
+* Kotlin coroutines support
 
 ## MVP-RX support library
 ### MVP-RX 1 [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx1/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx1/_latestVersion)
@@ -13,6 +16,19 @@
 
 ## Entity converters [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/entityconverter/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/entityconverter/_latestVersion)
 * support for converting models of different levels of abstraction
+
+## Installation
+You can use any of this dependencies
+by gradle : 
+```groovy
+dependencies {
+    implementation 'com.androidkotlincore:mvp:x.y.z'
+    implementation 'com.androidkotlincore:mvp-rx1:x.y.z'
+    implementation 'com.androidkotlincore:mvp-rx2:x.y.z'
+    implementation 'com.androidkotlincore:entityconverter:x.y.z'
+}
+```
+or just download zip and import module to be able to modify the sources
 
 #### License ####
 * * *
