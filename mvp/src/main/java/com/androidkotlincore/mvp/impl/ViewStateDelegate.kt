@@ -1,12 +1,19 @@
 package com.androidkotlincore.mvp.impl
 
+import android.arch.lifecycle.Lifecycle
 import com.androidkotlincore.mvp.MVPPresenter
 import com.androidkotlincore.mvp.MVPView
 import java.util.*
 import java.util.concurrent.atomic.AtomicLong
 
 /**
- * Created by denis on 1/5/18.
+ * Created by Peter on 07.01.2017.
+ */
+
+/**
+ * Saves and restores [MVPView] state after her re-creation
+ * ViewState (applier) - a function, which will be invoked every time after [MVPView] re-creation
+ * Data - data, which will be passed to the applier
  */
 interface ViewStateDelegate<TPresenter, TView>
         where TView : MVPView<TView, TPresenter>,
@@ -29,7 +36,7 @@ interface ViewStateDelegate<TPresenter, TView>
      * Example:
      * saveViewState(3, "tag3",     "msg3") { showMessage(it) }
      * saveViewState(2, "tag2",     "msg2") { showMessage(it) }
-     * saveViewState(3, "tag3*",    "msg3*") { showMessage(it) }
+     * saveViewState(3, "tag3*",    "msg3*"){ showMessage(it) }
      * saveViewState(1, "tag1",     "msg1") { showMessage(it) }
      * Result after invoke:
      * "msg3"
@@ -67,6 +74,7 @@ interface ViewStateDelegate<TPresenter, TView>
 
     fun restoreViewState(view: TView)
     fun onDestroyed(presenterName: String)
+    fun isRestoreViewStateRequired(previousState: Lifecycle.Event, currentState: Lifecycle.Event): Boolean
 }
 
 
@@ -128,5 +136,9 @@ internal class ViewStateDelegateImpl<TPresenter, TView> : ViewStateDelegate<TPre
             MVPLogger.log("$presenterName: deleted view states in count: $viewStatesCount")
             viewStates.clear()
         }
+    }
+
+    override fun isRestoreViewStateRequired(previousState: Lifecycle.Event, currentState: Lifecycle.Event): Boolean {
+        return previousState == Lifecycle.Event.ON_CREATE && currentState == Lifecycle.Event.ON_START
     }
 }

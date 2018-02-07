@@ -13,9 +13,17 @@ interface MVPPresenter<TPresenter, TView>
 
     suspend fun getView(): TView
     fun postToView(action: TView.() -> Unit)
+
     fun attachView(view: TView)
     fun detachView(view: TView)
 
-    fun onCreated(isFirstCreation: Boolean)
+    /**
+     * This method will be executed once after Presenter's creation
+     */
+    fun onCreated()
+
+    /**
+     * This method will be executed once before Presenter's destroying
+     */
     fun onDestroyed()
 }

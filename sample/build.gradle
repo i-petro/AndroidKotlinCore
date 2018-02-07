@@ -21,7 +21,7 @@ android {
     testBuildType "debug"
 
     defaultConfig {
-        applicationId "com.androidkotlincore.androidkotlincoresample"
+        applicationId "com.androidkotlincore.sample"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         vectorDrawables.useSupportLibrary = true
@@ -40,7 +40,36 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         encoding "UTF-8"
     }
+
     kotlin { experimental { coroutines 'enable' } }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'protobuf.meta'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    lintOptions { abortOnError false }
+
+    sourceSets {
+        main {
+            kotlin.srcDirs += 'src/main/myKotlin'
+            res.srcDirs = [
+                    'src/main/res',
+                    'src/main/res/activity',
+                    'src/main/res/fragment',
+                    'src/main/res/item'
+            ]
+        }
+    }
+
     signingConfigs {
         debug {
             storeFile file("../keystore/key.jks")
@@ -100,15 +129,28 @@ dependencies {
     implementation deps.support.recyclerview
     implementation deps.support.constraintLayout
 
-    //rx
-    implementation deps.rx.android
-    implementation deps.rx.java
+    //firebase
+    implementation deps.playServices.firebase_core
+    implementation deps.playServices.firebase_auth
+    implementation deps.playServices.firebase_auth_service
 
     //coroutines
     implementation deps.coroutines.core
     implementation deps.coroutines.android
-    implementation deps.coroutines.rx
+
+    //dagger
+    implementation deps.dagger.lib
+    kapt deps.dagger.processor
+    implementation deps.dagger.android
+    kapt deps.dagger.androidProcessor
+    implementation deps.dagger.support
+
+    //glide
+    implementation deps.glide.glide
+    kapt deps.glide.glideCompiler
 
     //kotlin
     implementation deps.kotlin.stdlib
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -6,7 +6,6 @@ import kotlin.coroutines.experimental.suspendCoroutine
  * Created by Peter on 31.01.18.
  */
 interface CompositeEventListener<TEvent> {
-    fun emit(event: TEvent)
     fun subscribe(listener: (TEvent) -> Unit): (TEvent) -> Unit
     fun unSubscribe(listener: (TEvent) -> Unit): (TEvent) -> Unit
     fun unSubscribeAll()

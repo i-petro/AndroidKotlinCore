@@ -8,7 +8,7 @@ import android.os.Bundle
  */
 
 /**
- * Represents View, which have lifecycle
+ * Represents View, which have a lifecycle
  * All Activities and Fragments must implement this interface
  * @see [com.androidkotlincore.mvp.impl.BaseMVPActivity]
  * @see [com.androidkotlincore.mvp.impl.BaseMVPFragment]

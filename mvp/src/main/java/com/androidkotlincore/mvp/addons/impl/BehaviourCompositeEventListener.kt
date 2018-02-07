@@ -1,12 +1,13 @@
 package com.androidkotlincore.mvp.addons.impl
 
 import com.androidkotlincore.mvp.addons.CompositeEventListener
+import com.androidkotlincore.mvp.addons.EmitableCompositeEventListener
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Created by Peter on 31.01.18.
  */
-class BehaviourCompositeEventListener<TEvent> : CompositeEventListener<TEvent> {
+class BehaviourCompositeEventListener<TEvent> : CompositeEventListener<TEvent>, EmitableCompositeEventListener<TEvent> {
     private val listeners = CopyOnWriteArrayList<(TEvent) -> Unit>()
     private var event: TEvent? = null
 

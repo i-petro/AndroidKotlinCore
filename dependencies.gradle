@@ -8,16 +8,16 @@ def deps = [:]
 
 //=============================================== MODULES===========================================
 //deps.mvp_rx1 = project(":mvp-rx1")
-deps.mvp_rx1 = 'com.androidkotlincore:mvp-rx1:0.0.3'
+deps.mvp_rx1 = 'com.androidkotlincore:mvp-rx1:0.0.7'
 
-//deps.mvp_rx = project(":mvp-rx")
-deps.mvp_rx = 'com.androidkotlincore:mvp-rx:0.0.3'
+//deps.mvp_rx = project(":mvp-rx2")
+deps.mvp_rx = 'com.androidkotlincore:mvp-rx:0.0.7'
 //
 //deps.mvp = project(":mvp")
-deps.mvp = 'com.androidkotlincore:mvp:0.0.5'
+deps.mvp = 'com.androidkotlincore:mvp:0.0.7'
 //
-//deps.entityconverter = project(":entityconverter")
-deps.entityconverter = 'com.androidkotlincore:entityconverter:0.0.3'
+deps.entityconverter = project(":entityconverter")
+//deps.entityconverter = 'com.androidkotlincore:entityconverter:0.0.3'
 //=============================================== SUPPORT ==========================================
 versions.support = "27.0.2"
 
@@ -46,6 +46,13 @@ playServices.locations = ["com.google.android.gms:play-services-location:$versio
     exclude module: 'support-v7'
 }]
 playServices.play_services_gradle_plugin = "com.google.gms:google-services:$versions.play_services_gradle_plugin"
+
+//fireBase
+versions.firebase = '11.8.0'
+playServices.firebase_core = "com.google.firebase:firebase-core:$versions.firebase"
+playServices.firebase_auth = "com.google.firebase:firebase-auth:$versions.firebase"
+playServices.firebase_auth_service = "com.google.android.gms:play-services-auth:$versions.firebase"
+
 deps.playServices = playServices
 
 //============================================== KOTLIN ============================================
@@ -171,5 +178,5 @@ ext.deps = deps
 
 ext {
     databaseNameRelease = 'db.db'
-    databaseNameDev = 'db.db'
+    databaseNameDev = 'dbDev.db'
 }

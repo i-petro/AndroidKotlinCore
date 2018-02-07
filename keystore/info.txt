@@ -1,0 +1,14 @@
+Creation date: 30.01.2018
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: C=UA
+Issuer: C=UA
+Serial number: 13202340
+Valid from: Tue Jan 30 14:16:52 EET 2018 until: Sat Jan 24 14:16:52 EET 2043
+Certificate fingerprints:
+         MD5:  69:C9:0E:60:5A:55:C2:C3:E1:57:43:63:17:CF:BB:7A
+         SHA1: BC:A4:74:06:BF:A0:ED:A3:2A:B8:08:FA:F2:A8:1F:C4:2D:6A:21:41
+         SHA256: 95:13:51:4B:BB:01:07:3D:5C:38:FC:78:3E:16:68:12:D8:4F:37:25:EF:66:B0:DC:DB:13:F0:74:72:5E:C5:2A
+         Signature algorithm name: SHA256withRSA
+         Version: 3

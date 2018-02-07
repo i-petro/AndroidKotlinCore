@@ -5,8 +5,9 @@ import android.os.Handler
 import android.os.Looper
 import com.androidkotlincore.mvp.*
 import com.androidkotlincore.mvp.addons.CompositeEventListener
+import com.androidkotlincore.mvp.addons.EmitableCompositeEventListener
 import com.androidkotlincore.mvp.addons.StateExecutor
-import com.androidkotlincore.mvp.addons.impl.BehaviourCompositeEventListener
+import com.androidkotlincore.mvp.addons.impl.SimpleCompositeEventListener
 import com.androidkotlincore.mvp.impl.MVPLogger.log
 import com.androidkotlincore.mvp.impl.permissions.OnRequestPermissionsResultEvent
 import com.androidkotlincore.mvp.impl.permissions.PermissionsManager
@@ -30,15 +31,18 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
     private val mainThreadHandler = Handler(Looper.getMainLooper())
     private var mvpView = StateExecutor<TView?, TView>(initState = null) { it != null }
     //view lifecycle
-    val viewLifecycle: CompositeEventListener<Lifecycle.Event> = BehaviourCompositeEventListener()
+    private val viewLifecycleEmitter: EmitableCompositeEventListener<Lifecycle.Event> = SimpleCompositeEventListener()
+    val viewLifecycle: CompositeEventListener<Lifecycle.Event> = viewLifecycleEmitter
     private var lifecycleListener: ((Lifecycle.Event) -> Unit)? = null
 
     //on activity result
-    val onActivityResult: CompositeEventListener<OnActivityResultEvent> = BehaviourCompositeEventListener()
+    private val onActivityResultEmitter: EmitableCompositeEventListener<OnActivityResultEvent> = SimpleCompositeEventListener()
+    val onActivityResult: CompositeEventListener<OnActivityResultEvent> = onActivityResultEmitter
     private var onActivityResultListener: ((OnActivityResultEvent) -> Unit)? = null
 
     //on request permission result
-    private val onRequestPermissionsResultDelegate: CompositeEventListener<OnRequestPermissionsResultEvent> = BehaviourCompositeEventListener()
+    private val onRequestPermissionsResultDelegateEmitter: EmitableCompositeEventListener<OnRequestPermissionsResultEvent> = SimpleCompositeEventListener()
+    private val onRequestPermissionsResultDelegate: CompositeEventListener<OnRequestPermissionsResultEvent> = onRequestPermissionsResultDelegateEmitter
     private var onRequestPermissionsListener: ((OnRequestPermissionsResultEvent) -> Unit)? = null
     val permissions: PermissionsManager by lazy {
         PermissionsManagerDelegate(onRequestPermissionsResultDelegate, view = { getView() })
@@ -103,7 +107,6 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
     /**
      * Executes action when View will be available on the MAIN THREAD!
      */
-    //TODO: reduce objects count here
     override fun postToView(action: TView.() -> Unit) = run { mainThreadHandler.post { mvpView.invoke(action)}; Unit }
 
     override suspend fun getView(): TView {
@@ -113,42 +116,84 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
         }
     }
 
-    override fun onCreated(isFirstCreation: Boolean) {
+    /**
+     * This method will be executed once after Presenter creation
+     */
+    override fun onCreated() {
         //empty implementation
     }
 
     final override fun attachView(view: TView) {
-        //attach lifecycle events delegate
-        lifecycleListener = view.lifecycle.subscribe { viewLifecycle.emit(it) }
-        onActivityResultListener = view.onActivityResult.subscribe { onActivityResult.emit(it) }
-        onRequestPermissionsListener = view.onRequestPermissionResult.subscribe { onRequestPermissionsResultDelegate.emit(it) }
+        /**
+         * 1. subscribe presenter to view lifecycle events and restore view state when it is required
+         */
+        var previousEvent: Lifecycle.Event? = null
+        lifecycleListener = view.lifecycle.subscribe { currentEvent ->
+            val localPreviousEvent = previousEvent
+            if (localPreviousEvent != null && viewStateDelegate.isRestoreViewStateRequired(localPreviousEvent, currentEvent)) {
+                viewStateDelegate.restoreViewState(view)
+            }
+            viewLifecycleEmitter.emit(currentEvent)
+            previousEvent = currentEvent
+        }
 
+        /**
+         * 2. subscribe presenter to OnActivityResult events
+         */
+        onActivityResultListener = view.onActivityResult.subscribe {
+            onActivityResultEmitter.emit(it)
+        }
+
+        /**
+         * 3. subscribe presenter to onRequestPermissionsResult events
+         */
+        onRequestPermissionsListener = view.onRequestPermissionResult.subscribe {
+            onRequestPermissionsResultDelegateEmitter.emit(it)
+        }
+
+        /**
+         * 4. finally attach view to the presenter and execute [postToView] queue
+         */
         mvpView.value = view
 
-        //TODO: restore view state after View creation, not in attachView()
-        viewStateDelegate.restoreViewState(view)
-
+        /**
+         * 5. notify child presenters
+         */
         onViewAttached(view)
     }
 
+    /**
+     * This function will be executed after each attachment of the View
+     */
     open fun onViewAttached(view: TView) {
         //do something
     }
 
     final override fun detachView(view: TView) {
-        //detach lifecycle events delegate
+        /**
+         * 1. unSubscribe presenter from lifecycle events delegate
+         */
         lifecycleListener?.let { view.lifecycle.unSubscribe(it) }
-        //detach from OnActivityResult events
+        /**
+         * 2. unSubscribe presenter from OnActivityResult events
+         */
         onActivityResultListener?.let { view.onActivityResult.unSubscribe(it) }
-        //detach from OnRequestPermissionsResult events
+        /**
+         * 3. unSubscribe presenter from OnRequestPermissionsResult events
+         */
         onRequestPermissionsListener?.let { view.onRequestPermissionResult.unSubscribe(it) }
-        //clear view
+        /**
+         * 4. clear view
+         */
         mvpView.value = null
+        /**
+         * 5. notify child presenters
+         */
         onViewDetached(view)
     }
 
     /**
-     * Last chance to get view
+     * This function will be executed after each detachment of the View
      */
     open fun onViewDetached(view: TView) {
         //do something
