@@ -13,10 +13,10 @@
 * _RxJava 2_ support ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/RxJava-1,-2-extensions)***
 
 ## Entity converters
-### Features: ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Entity-converter)***
-* support for converting models of different levels of abstraction
-* support for collections converting
-* support for interfaces converting
+### Features: 
+* support for converting models of different levels of abstraction ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Entity-converter)***
+* support for collections converting ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Entity-converter)***
+* support for interfaces converting ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Entity-converter)***
 
 ## Installation
 You can use any of this dependencies
