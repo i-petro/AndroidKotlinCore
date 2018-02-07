@@ -1,6 +1,6 @@
 # AndroidKotlinCore [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome) <img src="images/label-android.svg" height="19">
 
-## MVP implementation [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp/_latestVersion)
+## MVP implementation
 ### Features:
 * saving Presenter's instance during _screen rotation_
 * _don't keep activities_ mode support
@@ -12,11 +12,6 @@
 * _RxJava 1_ support
 * _RxJava 2_ support
 
-## MVP-RX support library
-Library have few simple extensions for RxJava 1 and RxJava 2 support.
-### MVP for RxJava 1 [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx1/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx1/_latestVersion)
-### MVP for RxJava 2 [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx2/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx2/_latestVersion)
-
 ## Entity converters [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/entityconverter/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/entityconverter/_latestVersion)
 * support for converting models of different levels of abstraction
 * support for collections converting
@@ -24,25 +19,15 @@ Library have few simple extensions for RxJava 1 and RxJava 2 support.
 
 ## Installation
 You can use any of this dependencies
-by gradle : 
-```groovy
-dependencies {
-    implementation 'com.androidkotlincore:mvp:x.y.z'
-    implementation 'com.androidkotlincore:mvp-rx1:x.y.z'
-    implementation 'com.androidkotlincore:mvp-rx2:x.y.z'
-    implementation 'com.androidkotlincore:entityconverter:x.y.z'
-}
-```
+
+| Module  |  Version  | Dependency |
+|---|---|---|
+| MVP implementation  | [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp/_latestVersion)  | ```'com.androidkotlincore:mvp:x.y.z'``` |
+|   MVP for RxJava 1 | [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx1/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx1/_latestVersion)  | ```'com.androidkotlincore:mvp-rx1:x.y.z'``` |
+| MVP for RxJava 2  |   [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx2/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx2/_latestVersion) | ```'com.androidkotlincore:mvp-rx2:x.y.z'``` |
+| Entity converters |  [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/entityconverter/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/entityconverter/_latestVersion) | ```'com.androidkotlincore:entityconverter:x.y.z'``` |
+
 or just download zip and import module to be able to modify the sources
-
-### Latest versions
-
-| Module  |  Version  |
-|---|---|
-| MVP implementation  | [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp/_latestVersion)  |
-|   MVP for RxJava 1 | [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx1/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx1/_latestVersion)  |
-| MVP for RxJava 2  |   [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx2/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx2/_latestVersion) |
-| Entity converters |  [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/entityconverter/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/entityconverter/_latestVersion) |
 
 #### License ####
 * * *
