@@ -11,8 +11,9 @@
 * Kotlin _coroutines_ support
 
 ## MVP-RX support library
-### MVP-RX 1 [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx1/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx1/_latestVersion)
-### MVP-RX 2 [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx2/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx2/_latestVersion)
+Library have few simple extensions for RxJava 1 and RxJava 2 support.
+### MVP for RxJava 1 [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx1/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx1/_latestVersion)
+### MVP for RxJava 2 [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx2/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx2/_latestVersion)
 
 ## Entity converters [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/entityconverter/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/entityconverter/_latestVersion)
 * support for converting models of different levels of abstraction
