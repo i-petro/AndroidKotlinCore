@@ -2,13 +2,13 @@
 
 ## MVP implementation [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp/_latestVersion)
 ### Features:
-* saving Presenter's instance during screen rotation
-* don't keep activities mode support
-* onActivityResult events handling
-* permissions management
-* lifecycle events handling
-* saving and restoring View state without onSaveInstanceState() and Bundle
-* Kotlin coroutines support
+* saving Presenter's instance during _screen rotation_
+* _don't keep activities_ mode support
+* _onActivityResult_ events handling
+* _permissions_ management
+* _lifecycle_ events handling
+* saving and restoring View state without _onSaveInstanceState()_ and _Bundle_
+* Kotlin _coroutines_ support
 
 ## MVP-RX support library
 ### MVP-RX 1 [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/mvp-rx1/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/mvp-rx1/_latestVersion)
