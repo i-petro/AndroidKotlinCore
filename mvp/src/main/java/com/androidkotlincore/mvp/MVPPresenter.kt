@@ -16,6 +16,7 @@ interface MVPPresenter<TPresenter, TView>
      * @return TView
      * */
     suspend fun getView(): TView
+
     /**
      * Executes action when View will be available on the MAIN THREAD!
      * @param action - view function
@@ -27,6 +28,7 @@ interface MVPPresenter<TPresenter, TView>
      * @param view - view related to presenter
      * */
     fun attachView(view: TView)
+
     /**
      * Detach presenter to view callback
      * @param view - view related to presenter

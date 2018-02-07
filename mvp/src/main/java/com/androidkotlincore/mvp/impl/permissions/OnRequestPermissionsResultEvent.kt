@@ -23,12 +23,14 @@ class OnRequestPermissionsResultEvent(val requestCode: Int, val permissions: Lis
      * Returns true if all permissions ara granted
      * */
     val isAllGranted get() = grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }
+
     /**
      * Returns true if specific permission is granted
      *
      * @param permission - permission to check
      * */
     fun isGranted(permission: String): Boolean = grantResults[permissions.indexOf(permission)] == PackageManager.PERMISSION_GRANTED
+
     /**
      * Returns true if specific permission needs explanation
      *

@@ -13,8 +13,8 @@ import kotlinx.coroutines.experimental.sync.Mutex
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
-* Created by Peter on 19.01.18.
-*/
+ * Created by Peter on 19.01.18.
+ */
 typealias SupportFragment = android.support.v4.app.Fragment
 
 /**
@@ -90,7 +90,7 @@ class PermissionsManagerDelegate(
             }
 
             //wait for permissions request result
-            val event = permissionsObservable.awaitFirst{ it.requestCode == requestCode }
+            val event = permissionsObservable.awaitFirst { it.requestCode == requestCode }
             return RequestPermissionsResult(event)
         } finally {
             REQUEST_PERMISSION_MUTEX.unlock()

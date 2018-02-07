@@ -3,12 +3,40 @@ package com.androidkotlincore.mvp.impl
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 
+/**
+ * Container for subscriptions.
+ * Should be cleared in [com.androidkotlincore.mvp.MVPPresenter.onDestroyed] or in similar methods
+ * */
 interface SubscriptionContainer {
+    /**
+     * Adds job to container
+     * @param job - coroutine job; [Job]
+     * @return itself
+     * */
     fun addJob(job: Job): Job
+
+    /**
+     * Removes job from container
+     * @param job - coroutine job; [Job]
+     * @return itself
+     * */
     fun removeJob(job: Job): Job
+
+    /**
+     * Clears job container
+     * */
     fun cancelAllSubscriptions()
 
+    /**
+     * Overloads plus operator to add job into container
+     * @param job - [Job]
+     * */
     operator fun plusAssign(job: Job)
+
+    /**
+     * Overloads minus operator to remove job from container
+     * @param job - [Job]
+     * */
     operator fun minusAssign(job: Job)
 }
 
@@ -40,6 +68,11 @@ open class SubscriptionsContainerDelegate : SubscriptionContainer {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Extension to add job into container
+ * @param subscriptionContainer - [SubscriptionContainer]
+ * @return [Job]
+ * */
 fun Job.bind(subscriptionContainer: SubscriptionContainer): Job {
     subscriptionContainer += this
     return this

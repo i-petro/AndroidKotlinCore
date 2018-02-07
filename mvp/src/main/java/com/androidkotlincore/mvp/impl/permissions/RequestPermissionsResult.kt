@@ -42,12 +42,14 @@ class RequestPermissionsResult {
      * @param permission - permission to check
      * */
     fun isGranted(permission: String) = grantedPermissions.contains(permission)
+
     /**
      * Returns true if specific permission is denied
      *
      * @param permission - permission to check
      * */
     fun isDenied(permission: String) = deniedPermissions.contains(permission)
+
     /**
      * Returns true if specific permission needs explanation
      *

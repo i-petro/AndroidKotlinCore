@@ -14,11 +14,13 @@ interface CompositeEventListener<TEvent> {
      * @param listener - listener to subscribe
      * */
     fun subscribe(listener: (TEvent) -> Unit): (TEvent) -> Unit
+
     /**
      * Unsubscribes listener
      * @param listener - listener to unsubscribe
      * */
     fun unSubscribe(listener: (TEvent) -> Unit): (TEvent) -> Unit
+
     /**
      * Unsubscribes all listeners
      * */

@@ -14,6 +14,7 @@ interface PermissionsManager {
      * @return [RequestPermissionsResult]
      * */
     suspend fun requestPermissions(vararg permissions: String) = requestPermissions(permissions.toList())
+
     /**
      * Asks about specified permissions
      *
@@ -21,6 +22,7 @@ interface PermissionsManager {
      * @return [RequestPermissionsResult]
      * */
     suspend fun requestPermissions(permissions: List<String>): RequestPermissionsResult
+
     /**
      * Asks about specified permissions. Throws exception if not all permissions were granted
      *
@@ -28,6 +30,7 @@ interface PermissionsManager {
      * @return [RequestPermissionsResult]
      * */
     suspend fun requestPermissionsOrThrow(vararg permissions: String) = requestPermissionsOrThrow(permissions.toList())
+
     /**
      * Asks about specified permissions. Throws exception if not all permissions were granted
      *
@@ -35,6 +38,7 @@ interface PermissionsManager {
      * @return [RequestPermissionsResult]
      * */
     suspend fun requestPermissionsOrThrow(permissions: List<String>): RequestPermissionsResult
+
     /**
      * Checks if [permission] needs explanation dialog
      *
