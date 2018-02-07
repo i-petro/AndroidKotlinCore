@@ -7,7 +7,7 @@
 * onActivityResult events handling
 * permissions management
 * lifecycle events handling
-* restoring View state without onSaveInstanceState()
+* saving and restoring View state without onSaveInstanceState() and Bundle
 * Kotlin coroutines support
 
 ## MVP-RX support library
@@ -16,6 +16,8 @@
 
 ## Entity converters [ ![Download](https://api.bintray.com/packages/peterilchenko/AndroidKotlinCore/entityconverter/images/download.svg) ](https://bintray.com/peterilchenko/AndroidKotlinCore/entityconverter/_latestVersion)
 * support for converting models of different levels of abstraction
+* support for collections converting
+* support for interfaces converting
 
 ## Installation
 You can use any of this dependencies
