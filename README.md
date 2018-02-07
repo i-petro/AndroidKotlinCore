@@ -3,7 +3,7 @@
 ## MVP implementation
 ### Features:
 * saving Presenter's instance during _screen rotation_ ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Presenter's-lifecycle)***
-* _don't keep activities_ mode support
+* _don't keep activities_ mode support ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Presenter's-lifecycle)***
 * _onActivityResult_ events handling ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Handling-OnActivityResult-events)***
 * _permissions_ management ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Permissions-management)***
 * _lifecycle_ events handling ***[(See wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Handling-View-Lifecycle-events)***
@@ -13,7 +13,7 @@
 * _RxJava 2_ support ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/RxJava-1,-2-extensions)***
 
 ## Entity converters
-### Features: [(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Entity-converter)
+### Features: ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Entity-converter)***
 * support for converting models of different levels of abstraction
 * support for collections converting
 * support for interfaces converting
