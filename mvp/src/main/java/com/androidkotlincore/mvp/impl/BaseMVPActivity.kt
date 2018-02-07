@@ -11,6 +11,10 @@ import com.androidkotlincore.mvp.ViewPersistenceStorage
 /**
  * Created by Peter on 06.01.2017.
  */
+/**
+ * Base class for MVPActivity.
+ * @param mvpDelegate - implements functions from [MVPView]
+ * */
 @Suppress("LeakingThis")
 abstract class BaseMVPActivity<TView, TPresenter>(
         private val mvpDelegate: MVPActivityDelegate<
@@ -27,20 +31,34 @@ abstract class BaseMVPActivity<TView, TPresenter>(
 
     constructor() : this(MVPActivityDelegate())
 
+    /**
+     * Provides xml layout id
+     * */
     abstract val layoutId: Int
-
+    /**
+     * @see [ViewPersistenceStorage]
+     * */
     override lateinit var args: Bundle
 
+    /**
+     * mvpDelegate should be init here
+     * */
     init {
         mvpDelegate.init(this)
     }
 
+    /**
+     * Delegates onActivityResult callback to [mvpDelegate]
+     * */
     @CallSuper
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         mvpDelegate.onActivityResult(requestCode, resultCode, data)
     }
 
+    /**
+     * Delegates onRequestPermissionsResult callback to [mvpDelegate]
+     * */
     @CallSuper
     override fun onRequestPermissionsResult(
             requestCode: Int,

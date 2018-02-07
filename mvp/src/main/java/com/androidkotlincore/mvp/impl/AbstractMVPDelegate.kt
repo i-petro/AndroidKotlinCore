@@ -7,7 +7,6 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.androidkotlincore.mvp.ViewPersistenceStorage
 import com.androidkotlincore.mvp.*
 import com.androidkotlincore.mvp.addons.CompositeEventListener
 import com.androidkotlincore.mvp.addons.EmitableCompositeEventListener
@@ -16,8 +15,8 @@ import com.androidkotlincore.mvp.impl.MVPLogger.log
 import com.androidkotlincore.mvp.impl.permissions.OnRequestPermissionsResultEvent
 
 /**
-* Created by Peter on 07.01.2017.
-*/
+ * Created by Peter on 07.01.2017.
+ */
 
 typealias SupportFragment = android.support.v4.app.Fragment
 
@@ -26,6 +25,12 @@ typealias SupportFragment = android.support.v4.app.Fragment
  * The following methods must be invoked from the corresponding Activities/Fragments methods:
  * [onActivityResult]
  * [onRequestPermissionsResult]
+ *
+ * @param presentersStorage - storage for presenters. [AbstractMVPDelegate] handles putting [TPresenter]
+ * into [presentersStorage] and removing it from [presentersStorage]
+ * @property view - [MVPView] with witch this delegate works
+ * @property viewPersistenceStorage - [Bundle] from view with key-value pairs
+ * @property presenterId - initial presenter id
  */
 abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStorage: PresentersStorage<TPresenter, TView>) :
         GenericLifecycleObserver,
@@ -47,6 +52,10 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
 
     private var presenterId: Long = -1L
 
+    /**
+     * This function should be called in [TView] init block
+     * @param view - view witch uses this delegate
+     * */
     protected fun init(view: MVPView<TView, TPresenter>) {
         this.view = view
         if (view is LifecycleOwner) view.getLifecycle().addObserver(this)
@@ -54,13 +63,40 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
     }
 
     ///////////////////////////////////// MVPView methods overriding ///////////////////////////////
+    /**
+     * Lazy creation of [TPresenter]
+     * */
     override val presenter: TPresenter by lazy { createOrRestorePresenter() }
+    /**
+     * [BehaviourCompositeEventListener] to emit [Lifecycle.Event]
+     * */
     internal val lifecycleEmitter: EmitableCompositeEventListener<Lifecycle.Event> = BehaviourCompositeEventListener()
+    /**
+     * Use this listener to subscribe on [Lifecycle.Event]
+     * */
     override val lifecycle: CompositeEventListener<Lifecycle.Event> = lifecycleEmitter
+
+    /**
+     * [BehaviourCompositeEventListener] to emit [OnActivityResultEvent]
+     * */
     internal val onActivityResultEmitter: EmitableCompositeEventListener<OnActivityResultEvent> = BehaviourCompositeEventListener()
+    /**
+     * Use this listener to subscribe on [OnActivityResultEvent]
+     * */
     override val onActivityResult: CompositeEventListener<OnActivityResultEvent> = onActivityResultEmitter
+
+    /**
+     * [BehaviourCompositeEventListener] to emit [OnRequestPermissionsResultEvent]
+     * */
     internal val onRequestPermissionResultEmitter: EmitableCompositeEventListener<OnRequestPermissionsResultEvent> = BehaviourCompositeEventListener()
+    /**
+     * Use this listener to subscribe on [OnRequestPermissionsResultEvent]
+     * */
     override val onRequestPermissionResult: CompositeEventListener<OnRequestPermissionsResultEvent> = onRequestPermissionResultEmitter
+
+    /**
+     * Provides not null context
+     * */
     override val contextNotNull: Context
         get() {
             val localView = view
@@ -73,14 +109,27 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
         }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Activity result handler
+     * */
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         onActivityResultEmitter.emit(OnActivityResultEvent(requestCode, resultCode, data))
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Request permissions callback
+     *
+     * @param requestCode - permissions request code
+     * @param permissions - list of requested permissions
+     * @param grantResults - the grant results for the corresponding permissions
+     * */
     abstract fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * @see [GenericLifecycleObserver.onStateChanged]
+     * */
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         log("#STATE_CHANGED# ${view.javaClass.name} -> $event")
         presenter //presenter must be initialized here
@@ -102,6 +151,9 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
     @Suppress("UNCHECKED_CAST")
     private fun createPresenter(view: MVPView<TView, TPresenter>) = provideInjector(view).createPresenter(view.javaClass, view.mvpTag) as TPresenter
 
+    /**
+     * Casts view context to [MVPInjector]. Application should implement [MVPInjector]
+     * */
     protected open fun provideInjector(view: MVPView<TView, TPresenter>) = (view.contextNotNull.applicationContext as MVPInjector)
 
     private fun createOrRestorePresenter(): TPresenter {
@@ -149,6 +201,10 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
         }
     }
 
+    /**
+     * Predicate which indicates whether presenter should be destroyed when view is destroyed or not
+     * @return true to left presenter in storage
+     * */
     abstract fun retainPresenterInstance(): Boolean
 
     private fun destroyPresenter() {

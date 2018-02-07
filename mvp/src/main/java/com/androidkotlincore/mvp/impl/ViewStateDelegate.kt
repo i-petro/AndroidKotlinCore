@@ -72,8 +72,28 @@ interface ViewStateDelegate<TPresenter, TView>
             data: TData,
             applier: TView.(data: TData) -> Unit): TData
 
+    /**
+     * Restores all states for [view]
+     *
+     * @param view - view to restore state
+     * */
     fun restoreViewState(view: TView)
+
+    /**
+     * Presenter onDestroy callback.
+     * Perform any final cleanup before a presenter is destroyed
+     *
+     * @param presenterName - just for logs; name of presenter related to [TView]
+     * */
     fun onDestroyed(presenterName: String)
+
+    /**
+     * Predicate for restoring view state
+     *
+     * @param previousState - [Lifecycle.Event]
+     * @param currentState - [Lifecycle.Event]
+     * @return true view state should be restored
+     * */
     fun isRestoreViewStateRequired(previousState: Lifecycle.Event, currentState: Lifecycle.Event): Boolean
 }
 
@@ -81,7 +101,13 @@ interface ViewStateDelegate<TPresenter, TView>
 internal class ViewStateDelegateImpl<TPresenter, TView> : ViewStateDelegate<TPresenter, TView>
         where TView : MVPView<TView, TPresenter>,
               TPresenter : MVPPresenter<TPresenter, TView> {
+    /**
+     * Provides unique id for view state by default
+     * */
     private val stateIdGenerator = AtomicLong(Long.MIN_VALUE)
+    /**
+     * Set of view states to restore
+     * */
     private val viewStates = TreeSet<ViewState<out Any?, TView>>(ViewState.comparator)
 
     override fun <TData> saveViewState(presenter: MVPPresenter<TPresenter, TView>, id: Long, tag: String, data: TData, applier: TView.(data: TData) -> Unit): TData {

@@ -11,10 +11,28 @@ interface MVPPresenter<TPresenter, TView>
         where TView : MVPView<TView, TPresenter>,
               TPresenter : MVPPresenter<TPresenter, TView> {
 
+    /**
+     * Get view via coroutine
+     * @return TView
+     * */
     suspend fun getView(): TView
+
+    /**
+     * Executes action when View will be available on the MAIN THREAD!
+     * @param action - view function
+     * */
     fun postToView(action: TView.() -> Unit)
 
+    /**
+     * Attach presenter to view callback
+     * @param view - view related to presenter
+     * */
     fun attachView(view: TView)
+
+    /**
+     * Detach presenter to view callback
+     * @param view - view related to presenter
+     * */
     fun detachView(view: TView)
 
     /**
