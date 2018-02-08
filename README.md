@@ -2,14 +2,14 @@
 
 ## MVP implementation
 ### Features:
-* saving _Presenter_'s instance during _screen rotation_ ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Presenter's-lifecycle)***
-* _don't keep activities_ mode support ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Presenter's-lifecycle)***
-* _onActivityResult_ events handling ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Handling-OnActivityResult-events)***
-* _permissions_ management ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Permissions-management)***
-* _lifecycle_ events handling ***[(See wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Handling-View-Lifecycle-events)***
-* saving and restoring _View_ state without _onSaveInstanceState()_ and _Bundle_ ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Saving-and-restoring-View-state)***
-* Kotlin _coroutines_ support ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/Kotlin-Coroutines-extensions)***
-* _RxJava 1, 2_ support ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/RxJava-1,-2-extensions)***
+* saving _Presenter_'s instance during _screen rotation_ ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/5.-Presenter's-lifecycle)***
+* _don't keep activities_ mode support ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/5.-Presenter's-lifecycle)***
+* _onActivityResult_ events handling ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/4.-Handling-OnActivityResult-events)***
+* _permissions_ management ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/2.-Permissions-management)***
+* _lifecycle_ events handling ***[(See wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/3.-Handling-View-Lifecycle-events)***
+* saving and restoring _View_ state without _onSaveInstanceState()_ and _Bundle_ ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/6.-Saving-and-restoring-View-state)***
+* Kotlin _coroutines_ support ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/9.-Kotlin-Coroutines-extensions)***
+* _RxJava 1, 2_ support ***[(See Wiki)](https://github.com/i-petro/AndroidKotlinCore/wiki/8.-RxJava-1,-2-extensions)***
 ### Sample:
 See ***[project sample](/sample)*** and ***[Wiki](https://github.com/i-petro/AndroidKotlinCore/wiki/1.-Getting-Started)***
 
