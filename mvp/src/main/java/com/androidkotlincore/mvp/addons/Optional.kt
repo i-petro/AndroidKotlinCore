@@ -76,7 +76,7 @@ class Optional<T> {
      */
     fun ifPresent(consumer: ((value: T) -> Unit)) {
         if (value != null)
-            consumer.invoke(value)
+            consumer(value)
     }
 
     /**
@@ -92,7 +92,7 @@ class Optional<T> {
      */
     fun filter(predicate: ((value: T) -> Boolean)): Optional<T> {
         return if (!isPresent) this
-        else if (predicate.invoke(value!!)) this else empty()
+        else if (predicate(value!!)) this else empty()
     }
 
     /**
@@ -125,7 +125,7 @@ class Optional<T> {
     </U> */
     fun <U> map(mapper: ((inValue: T) -> U?)): Optional<U> {
         return if (!isPresent) empty()
-        else ofNullable(mapper.invoke(value!!))
+        else ofNullable(mapper(value!!))
     }
 
     /**
@@ -147,7 +147,7 @@ class Optional<T> {
     </U> */
     fun <U> flatMap(mapper: ((inValue: T) -> Optional<U>)): Optional<U> {
         return if (!isPresent) empty()
-        else mapper.invoke(value!!)
+        else mapper(value!!)
     }
 
     /**
@@ -172,7 +172,7 @@ class Optional<T> {
      * null
      */
     fun orElseGet(other: (() -> T)): T {
-        return value ?: other.invoke()
+        return value ?: other()
     }
 
     /**
@@ -192,7 +192,7 @@ class Optional<T> {
      * `exceptionSupplier` is null
     </X> */
     fun <X : Throwable> orElseThrow(exceptionSupplier: (() -> X)): T {
-        return value ?: throw exceptionSupplier.invoke()
+        return value ?: throw exceptionSupplier()
     }
 
     /**

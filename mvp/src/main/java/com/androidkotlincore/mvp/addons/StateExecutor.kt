@@ -17,9 +17,9 @@ class StateExecutor<State : Any?, out OutState : Any?> : ReadWriteProperty<Any?,
     var value: State
         set(value) {
             field = value
-            if (actionsQueue.isNotEmpty() && executionPredicate.invoke(value)) {
+            if (actionsQueue.isNotEmpty() && executionPredicate(value)) {
                 while (actionsQueue.isNotEmpty()) {
-                    actionsQueue.poll().invoke(transformer.invoke(value))
+                    actionsQueue.poll().invoke(transformer(value))
                 }
             }
         }
@@ -56,8 +56,8 @@ class StateExecutor<State : Any?, out OutState : Any?> : ReadWriteProperty<Any?,
      * Executes action or adds it to [actionsQueue]. It depends on [executionPredicate]
      * @param action - action to invoke
      * */
-    fun invoke(action: (state: OutState) -> Unit) {
-        if (executionPredicate.invoke(value)) action.invoke(transformer.invoke(value))
+    operator fun invoke(action: (state: OutState) -> Unit) {
+        if (executionPredicate(value)) action(transformer(value))
         else actionsQueue.add(action)
     }
 

@@ -17,12 +17,16 @@ import android.content.pm.PackageManager
  * @param shouldShowRequestPermissionRationale - says whether you should show UI with rationale
  * for every requesting a permission
  * */
-class OnRequestPermissionsResultEvent(val requestCode: Int, val permissions: List<String>, val grantResults: List<Int>,
-                                      val shouldShowRequestPermissionRationale: List<Boolean>) {
+data class OnRequestPermissionsResultEvent(
+        val requestCode: Int,
+        val permissions: List<String>,
+        val grantResults: List<Int>,
+        val shouldShowRequestPermissionRationale: List<Boolean>) {
+
     /**
      * Returns true if all permissions ara granted
      * */
-    val isAllGranted get() = grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }
+    val isAllGranted: Boolean get() = grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }
 
     /**
      * Returns true if specific permission is granted
@@ -37,4 +41,9 @@ class OnRequestPermissionsResultEvent(val requestCode: Int, val permissions: Lis
      * @param permission - permission to check
      * */
     fun isShouldShowRequestPermissionRationale(permission: String): Boolean = shouldShowRequestPermissionRationale[permissions.indexOf(permission)]
+
+    /**
+     * Returns true if any permission needs explanation
+     */
+    val isShouldShowRequestPermissionRationale: Boolean get() = shouldShowRequestPermissionRationale.any { it }
 }

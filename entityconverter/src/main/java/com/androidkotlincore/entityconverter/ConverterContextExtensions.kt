@@ -32,7 +32,7 @@ inline fun <IN : Any, OUT : Any> ConvertersContext.registerConverter(
         outClass: Class<OUT>,
         crossinline converter: (IN, ConvertersContext) -> OUT) {
     val converterWrapper = { input: IN, _: Any?, context: ConvertersContext ->
-        converter.invoke(input, context)
+        converter(input, context)
     }
     registerConverter(inClass, outClass, converterWrapper::invoke)
 }
@@ -49,7 +49,7 @@ inline fun <IN : Any, OUT : Any> ConvertersContext.registerConverter(
         outClass: Class<OUT>,
         crossinline converter: (IN) -> OUT) {
     val wrapper = { input: IN, _: Any?, _: ConvertersContext ->
-        converter.invoke(input)
+        converter(input)
     }
     registerConverter(inClass, outClass, wrapper::invoke)
 }
@@ -62,7 +62,7 @@ inline fun <IN : Any, OUT : Any> ConvertersContext.registerConverter(
 inline fun <reified IN : Any, reified OUT : Any> ConvertersContext.registerConverter(
         crossinline converter: (IN) -> OUT) {
     val wrapper = { input: IN, _: Any?, _: ConvertersContext ->
-        converter.invoke(input)
+        converter(input)
     }
     registerConverter(IN::class.java, OUT::class.java, wrapper::invoke)
 }

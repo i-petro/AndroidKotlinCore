@@ -40,18 +40,15 @@ interface SubscriptionContainer {
     operator fun minusAssign(job: Job)
 }
 
+/**
+ * Simple [SubscriptionContainer] implementation
+ */
 open class SubscriptionsContainerDelegate : SubscriptionContainer {
     private val jobs = ArrayList<Job>()
 
-    override fun addJob(job: Job): Job {
-        jobs.add(job)
-        return job
-    }
+    override fun addJob(job: Job): Job = job.also { jobs.add(it) }
 
-    override fun removeJob(job: Job): Job {
-        jobs.remove(job)
-        return job
-    }
+    override fun removeJob(job: Job): Job = job.also { jobs.remove(it) }
 
     override fun cancelAllSubscriptions() {
         jobs.forEach { it.cancel() }

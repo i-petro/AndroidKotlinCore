@@ -22,7 +22,7 @@ class SimpleCompositeEventListener<TEvent> : CompositeEventListener<TEvent>, Emi
      * @param event - event to notify about
      * */
     override fun emit(event: TEvent) {
-        listeners.forEach { it.invoke(event) }
+        listeners.forEach { it(event) }
     }
 
     /**

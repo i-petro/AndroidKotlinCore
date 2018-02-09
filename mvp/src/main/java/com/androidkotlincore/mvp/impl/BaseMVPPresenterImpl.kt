@@ -147,14 +147,14 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
     /**
      * Executes action when View will be available on the MAIN THREAD!
      */
-    override fun postToView(action: TView.() -> Unit) = run { mainThreadHandler.post { mvpView.invoke(action) }; Unit }
+    override fun postToView(action: TView.() -> Unit) = run { mainThreadHandler.post { mvpView(action) }; Unit }
 
     /**
      * @see [MVPPresenter]
      * */
     override suspend fun getView(): TView {
         return mvpView.value ?: suspendCancellableCoroutine { continuation ->
-            mvpView.invoke { continuation.resume(it) }
+            mvpView { continuation.resume(it) }
             addJob(continuation)
         }
     }

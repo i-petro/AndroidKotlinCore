@@ -110,11 +110,21 @@ internal class ViewStateDelegateImpl<TPresenter, TView> : ViewStateDelegate<TPre
      * */
     private val viewStates = TreeSet<ViewState<out Any?, TView>>(ViewState.comparator)
 
-    override fun <TData> saveViewState(presenter: MVPPresenter<TPresenter, TView>, id: Long, tag: String, data: TData, applier: TView.(data: TData) -> Unit): TData {
+    override fun <TData> saveViewState(
+            presenter: MVPPresenter<TPresenter, TView>,
+            id: Long,
+            tag: String,
+            data: TData,
+            applier: TView.(data: TData) -> Unit
+    ): TData {
         return saveViewStateImpl(presenter, id, tag, data, applier)
     }
 
-    override fun <TData> saveViewState(presenter: MVPPresenter<TPresenter, TView>, data: TData, applier: TView.(data: TData) -> Unit): TData {
+    override fun <TData> saveViewState(
+            presenter: MVPPresenter<TPresenter, TView>,
+            data: TData,
+            applier: TView.(data: TData) -> Unit
+    ): TData {
         return saveViewStateImpl(presenter, stateIdGenerator.getAndIncrement(), "?", data, applier)
     }
 
@@ -126,7 +136,7 @@ internal class ViewStateDelegateImpl<TPresenter, TView> : ViewStateDelegate<TPre
             applier: TView.(data: TData) -> Unit): TData {
 
         presenter.postToView {
-            applier.invoke(this, data)
+            applier(this, data)
 
             //avoid invoking duplication
             val viewState = ViewState(id, data, applier, tag)
@@ -145,7 +155,7 @@ internal class ViewStateDelegateImpl<TPresenter, TView> : ViewStateDelegate<TPre
         viewStates.forEach { state: ViewState<out Any?, TView> ->
             @Suppress("UNCHECKED_CAST")
             val applier = state.applier as (TView.(data: Any?) -> Unit)
-            applier.invoke(view, state.data)
+            applier(view, state.data)
             MVPLogger.log("View state ${state.id} [${state.tag ?: "?"}] was restored!")
         }
 

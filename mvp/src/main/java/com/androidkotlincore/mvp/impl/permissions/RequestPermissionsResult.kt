@@ -35,7 +35,11 @@ class RequestPermissionsResult {
         this.deniedPermissions = event.permissions.filter { !event.isGranted(it) }
     }
 
-    val isAllGranted get() = deniedPermissions.isEmpty()
+    /**
+     * Returns true if all permissions are granted
+     */
+    val isAllGranted: Boolean get() = deniedPermissions.isEmpty()
+
     /**
      * Returns true if specific permission is granted
      *
@@ -56,6 +60,11 @@ class RequestPermissionsResult {
      * @param permission - permission to check
      * */
     fun isShouldShowRequestPermissionRationale(permission: String): Boolean = event?.isShouldShowRequestPermissionRationale(permission) ?: false
+
+    /**
+     * Returns true if any permission needs explanation
+     */
+    val isShouldShowRequestPermissionRationale: Boolean get() = event?.isShouldShowRequestPermissionRationale ?: false
 
     override fun toString(): String {
         return "Permissions: Granted: ${grantedPermissions.joinToString()}; Denied: ${deniedPermissions.joinToString()}"

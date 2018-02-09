@@ -46,6 +46,10 @@ interface PresentersStorage<TPresenter : MVPPresenter<TPresenter, TView>, TView 
     fun put(view: MVPView<TView, TPresenter>, id: Long, presenter: TPresenter): TPresenter
 }
 
+/**
+ * Default presenter's storage implementation
+ * Saves presenters during View re-creation
+ */
 internal class PresentersStorageImpl<TPresenter, TView> : PresentersStorage<TPresenter, TView>
 
         where TPresenter : MVPPresenter<TPresenter, TView>,

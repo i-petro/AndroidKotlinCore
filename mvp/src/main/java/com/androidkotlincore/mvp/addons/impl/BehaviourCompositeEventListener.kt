@@ -28,7 +28,7 @@ class BehaviourCompositeEventListener<TEvent> : CompositeEventListener<TEvent>, 
      * */
     override fun emit(event: TEvent) {
         this.event = event
-        this.listeners.forEach { it.invoke(event) }
+        this.listeners.forEach { it(event) }
     }
 
     /**
@@ -37,7 +37,7 @@ class BehaviourCompositeEventListener<TEvent> : CompositeEventListener<TEvent>, 
      * */
     override fun subscribe(listener: (TEvent) -> Unit): (TEvent) -> Unit {
         this.listeners.add(listener)
-        this.event?.let { listener.invoke(it) }
+        this.event?.let { listener(it) }
         return listener
     }
 
