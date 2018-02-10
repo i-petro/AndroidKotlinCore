@@ -1,4 +1,4 @@
-# AndroidKotlinCore [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome) <img src="images/label-android.svg" height="19"> <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" height="19">
+# AndroidKotlinCore [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome) <img src="github/images/label-android.svg" height="19"> <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" height="19">
 
 ## MVP implementation
 ### Features:
