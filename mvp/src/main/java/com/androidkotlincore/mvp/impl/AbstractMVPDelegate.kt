@@ -1,6 +1,5 @@
 package com.androidkotlincore.mvp.impl
 
-import android.app.Fragment
 import android.arch.lifecycle.GenericLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
@@ -17,8 +16,6 @@ import com.androidkotlincore.mvp.impl.permissions.OnRequestPermissionsResultEven
 /**
  * Created by Peter on 07.01.2017.
  */
-
-typealias SupportFragment = android.support.v4.app.Fragment
 
 /**
  * MVPDelegate for Activities & Fragments which must implement the [LifecycleOwner] interface
@@ -94,20 +91,6 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
      * */
     override val onRequestPermissionResult: CompositeEventListener<OnRequestPermissionsResultEvent> = onRequestPermissionResultEmitter
 
-    /**
-     * Provides not null context
-     * */
-    override val contextNotNull: Context
-        get() {
-            val localView = view
-            return when (localView) {
-                is Context -> localView
-                is Fragment -> requireNotNull(localView.activity) { "$localView not attached yet" }
-                is SupportFragment -> requireNotNull(localView.context) { "$localView not attached yet" }
-                else -> throw IllegalStateException("Non nullable context not supported for $view")
-            }
-        }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Activity result handler
@@ -152,9 +135,17 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
     private fun createPresenter(view: MVPView<TView, TPresenter>) = provideInjector(view).createPresenter(view.javaClass, view.mvpTag) as TPresenter
 
     /**
-     * Casts view context to [MVPInjector]. Application should implement [MVPInjector]
+     * Searches for the [MVPInjector] among candidates:
+     * - [MVPView]
+     * - [MVPView][contextNotNull]
+     * - [Context] of an application
+     * Application should implement [MVPInjector]
      * */
-    protected open fun provideInjector(view: MVPView<TView, TPresenter>) = (view.contextNotNull.applicationContext as MVPInjector)
+    protected open fun provideInjector(view: MVPView<TView, TPresenter>) =
+            view as? MVPInjector ?:
+                    view.contextNotNull as? MVPInjector ?:
+                    view.contextNotNull.applicationContext as? MVPInjector ?:
+                    throw IllegalStateException("Implementation of ${MVPInjector::class.java.name} not found!")
 
     private fun createOrRestorePresenter(): TPresenter {
         val presenterExtraId = "${view.javaClass.name}.presenterId"

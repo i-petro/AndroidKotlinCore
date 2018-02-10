@@ -1,5 +1,6 @@
 package com.androidkotlincore.mvp.impl
 
+import android.content.Context
 import android.os.Build
 import android.support.v4.app.BackStackAccessor
 import android.support.v4.app.Fragment
@@ -65,4 +66,10 @@ class MVPFragmentDelegate<TPresenter, TView, in V>(presentersStorage: Presenters
                 grantResults.toList(),
                 shouldShowRequestPermissionRationale.toList()))
     }
+
+    /**
+     * Provides not null context
+     * */
+    override val contextNotNull: Context
+        get() = view.context ?: throw IllegalStateException("Non nullable context not supported for $view")
 }

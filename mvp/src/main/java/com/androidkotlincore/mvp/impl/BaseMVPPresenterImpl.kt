@@ -3,6 +3,7 @@ package com.androidkotlincore.mvp.impl
 import android.arch.lifecycle.Lifecycle
 import android.os.Handler
 import android.os.Looper
+import android.support.annotation.CallSuper
 import com.androidkotlincore.mvp.MVPPresenter
 import com.androidkotlincore.mvp.MVPView
 import com.androidkotlincore.mvp.OnActivityResultEvent
@@ -251,6 +252,7 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
     /**
      * @see [MVPPresenter.onDestroyed]
      * */
+    @CallSuper
     override fun onDestroyed() {
         val presenterName = this::class.java.name
 
