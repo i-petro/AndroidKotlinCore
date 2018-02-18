@@ -5,6 +5,7 @@ import android.content.Intent
 import com.androidkotlincore.mvp.OnActivityResultEvent
 import com.androidkotlincore.mvp.addons.CompositeEventListener
 import com.androidkotlincore.mvp.addons.awaitFirst
+import com.androidkotlincore.mvp.addons.generateRequestCode
 import com.androidkotlincore.sample.data.service.GoogleSignInService
 import com.androidkotlincore.sample.domain.interactors.LoginInteractor
 import com.androidkotlincore.sample.domain.model.SignInModel
@@ -20,18 +21,18 @@ class GoogleLoginInteractorImpl @Inject constructor(
 ) : LoginInteractor {
 
     override suspend fun login(
-            startActivityForResult: (intent: Intent, requestCode: Int) -> Unit,
-            getActivityResult: CompositeEventListener<OnActivityResultEvent>): SignInModel {
+            activityForResultStarter: (intent: Intent, requestCode: Int) -> Unit,
+            activityResultListener: CompositeEventListener<OnActivityResultEvent>): SignInModel {
 
         val intent = googleSignInService.generateSignInIntent()
-        startActivityForResult(intent, REQUEST_CODE_GOOGLE_SIGN_IN)
-        val activityResult = getActivityResult.awaitFirst { it.requestCode == REQUEST_CODE_GOOGLE_SIGN_IN }
+        val requestCode = generateRequestCode()
+        activityForResultStarter(intent, requestCode)
+        val activityResult = activityResultListener.awaitFirst { it.requestCode == requestCode }
         val resultIntent = requireNotNull(activityResult.data)
-        val signInResult = googleSignInService.processResult(resultIntent)
-        return signInResult
+        return googleSignInService.processSignInResult(resultIntent)
     }
 
-    companion object {
-        private const val REQUEST_CODE_GOOGLE_SIGN_IN = 17
+    override suspend fun logout() {
+        googleSignInService.logout()
     }
 }

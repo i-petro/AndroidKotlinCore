@@ -21,14 +21,16 @@ class LoginFragment : BaseFragment<LoginView, LoginPresenter>(), LoginView {
     }
 
     override fun showMessage(message: String) {
-        Snackbar.make(view!!, message, Snackbar.LENGTH_SHORT).show()
+        view?.apply { Snackbar.make(this, message, Snackbar.LENGTH_SHORT).show() }
     }
 
     companion object Factory {
         fun newInstance(): LoginFragment {
             val fragment = LoginFragment()
-            fragment.arguments = Bundle()
+            fragment.arguments = makeArguments()
             return fragment
         }
+
+        fun makeArguments() = Bundle()
     }
 }

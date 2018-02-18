@@ -163,7 +163,7 @@ abstract class BaseMVPPresenterImpl<TPresenter, TView>(
     /**
      * This method will be executed once after Presenter creation
      */
-    override fun onCreated() {
+    override fun onCreated(isFirstPresenterCreation: Boolean) {
         //empty implementation
     }
 

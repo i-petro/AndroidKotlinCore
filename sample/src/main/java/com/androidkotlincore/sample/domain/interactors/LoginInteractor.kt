@@ -9,6 +9,7 @@ import com.androidkotlincore.sample.domain.model.SignInModel
  * Created by Peter on 05.02.2018.
  */
 interface LoginInteractor {
-    suspend fun login(startActivityForResult: (intent: Intent, requestCode: Int) -> Unit,
-                      getActivityResult: CompositeEventListener<OnActivityResultEvent>): SignInModel
+    suspend fun login(activityForResultStarter: (intent: Intent, requestCode: Int) -> Unit,
+                      activityResultListener: CompositeEventListener<OnActivityResultEvent>): SignInModel
+    suspend fun logout()
 }

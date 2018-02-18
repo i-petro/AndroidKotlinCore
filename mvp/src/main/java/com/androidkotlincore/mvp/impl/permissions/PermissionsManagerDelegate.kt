@@ -131,8 +131,8 @@ class PermissionsManagerDelegate(
         val v = view()
         return when (v) {
             is Activity -> v.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
-            is Fragment -> v.activity!!.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
-            is SupportFragment -> v.activity!!.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+            is Fragment -> requireNotNull(v.activity).checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+            is SupportFragment -> requireNotNull(v.activity).checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
             else -> throw IllegalStateException("View $v must be ${Activity::class.java.name} " +
                     "or ${Fragment::class.java.name} " +
                     "or ${SupportFragment::class.java.name}!")
@@ -151,8 +151,8 @@ class PermissionsManagerDelegate(
         val v = view()
         val activity: Activity = when (v) {
             is Activity -> v
-            is Fragment -> v.activity!!
-            is SupportFragment -> v.activity!!
+            is Fragment -> requireNotNull(v.activity)
+            is SupportFragment -> requireNotNull(v.activity)
             else -> throw IllegalStateException("View $v must be ${Activity::class.java.name} or " +
                     "${Fragment::class.java.name} or " +
                     "${SupportFragment::class.java.name}!")

@@ -38,7 +38,7 @@ interface MVPPresenter<TPresenter, TView>
     /**
      * This method will be executed once after Presenter's creation
      */
-    fun onCreated()
+    fun onCreated(isFirstPresenterCreation: Boolean)
 
     /**
      * This method will be executed once before Presenter's destroying

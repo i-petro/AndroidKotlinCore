@@ -1,25 +1,24 @@
 package com.androidkotlincore.mvp.addons.impl
 
-import com.androidkotlincore.mvp.addons.CompositeEventListener
 import com.androidkotlincore.mvp.addons.EmitableCompositeEventListener
-import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Created by Peter on 31.01.18.
  */
 /**
- * Realisation of Observer pattern similar to rx BehaviourSubject.
- * Emits last emitted event to new subscribed listener
+ * [EmitableCompositeEventListener] wrapper, which emits last event after subscribing
+ * Similar to rx BehaviourSubject.
  * */
-class BehaviourCompositeEventListener<TEvent> : CompositeEventListener<TEvent>, EmitableCompositeEventListener<TEvent> {
-    /**
-     * Thread-safe list of listeners
-     * */
-    private val listeners = CopyOnWriteArrayList<(TEvent) -> Unit>()
+class BehaviourCompositeEventListener<TEvent : Any>(
+        private val delegate: EmitableCompositeEventListener<TEvent>)
+    : EmitableCompositeEventListener<TEvent> by delegate {
+
+    constructor() : this(SimpleCompositeEventListener())
+
     /**
      * Last emitted item
      * */
-    private var event: TEvent? = null
+    private lateinit var event: TEvent
 
     /**
      * Notifies listeners about new event.
@@ -28,7 +27,7 @@ class BehaviourCompositeEventListener<TEvent> : CompositeEventListener<TEvent>, 
      * */
     override fun emit(event: TEvent) {
         this.event = event
-        this.listeners.forEach { it(event) }
+        this.delegate.emit(event)
     }
 
     /**
@@ -36,24 +35,9 @@ class BehaviourCompositeEventListener<TEvent> : CompositeEventListener<TEvent>, 
      * @param listener - new listener
      * */
     override fun subscribe(listener: (TEvent) -> Unit): (TEvent) -> Unit {
-        this.listeners.add(listener)
-        this.event?.let { listener(it) }
-        return listener
-    }
-
-    /**
-     * Removes listener from list
-     * @param listener - listener to remove
-     * */
-    override fun unSubscribe(listener: (TEvent) -> Unit): (TEvent) -> Unit {
-        this.listeners.remove(listener)
-        return listener
-    }
-
-    /**
-     * Removes all listeners from list
-     * */
-    override fun unSubscribeAll() {
-        this.listeners.clear()
+        if (this::event.isInitialized) {
+            listener(event)
+        }
+        return delegate.subscribe(listener)
     }
 }

@@ -8,9 +8,10 @@ import javax.inject.Inject
  * Created by Peter on 05.02.2018.
  */
 class LoginScreenManagerImpl @Inject constructor() : LoginScreenManager {
+    @Suppress("ProtectedInFinal")
     @Inject protected lateinit var container: FragmentContainerScreenManager
 
     override fun start(context: Context) {
-        container.start(context, LoginFragment::class.java)
+        container.start(context, LoginFragment::class.java, LoginFragment.makeArguments())
     }
 }

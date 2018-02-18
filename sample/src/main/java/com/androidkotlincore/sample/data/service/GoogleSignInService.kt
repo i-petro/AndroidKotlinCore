@@ -8,5 +8,6 @@ import com.androidkotlincore.sample.domain.model.SignInModel
  */
 interface GoogleSignInService {
     fun generateSignInIntent(): Intent
-    suspend fun processResult(result: Intent): SignInModel
+    suspend fun processSignInResult(result: Intent): SignInModel
+    suspend fun logout()
 }

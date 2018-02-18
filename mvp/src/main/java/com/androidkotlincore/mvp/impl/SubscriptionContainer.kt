@@ -65,6 +65,9 @@ open class SubscriptionsContainerDelegate : SubscriptionContainer {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+private val WORKER_POOL = CommonPool
+private val UI_POOL = UI
+
 /**
  * Extension to add job into container
  * @param subscriptionContainer - [SubscriptionContainer]
@@ -78,34 +81,27 @@ fun Job.bind(subscriptionContainer: SubscriptionContainer): Job {
 /**
  * Creates coroutine, which will be automatically added to the subscription container
  */
-fun SubscriptionContainer.launchAsync(start: CoroutineStart = CoroutineStart.DEFAULT,
+fun SubscriptionContainer.launchCoroutineWorker(start: CoroutineStart = CoroutineStart.DEFAULT,
                                       block: suspend CoroutineScope.() -> Unit): Job =
-        launch(CommonPool, start, block).bind(this)
+        launch(WORKER_POOL, start, block).bind(this)
 
 /**
  * Creates coroutine, which will be automatically added to the subscription container
  */
-fun SubscriptionContainer.launchUI(start: CoroutineStart = CoroutineStart.DEFAULT,
+fun SubscriptionContainer.launchCoroutineUI(start: CoroutineStart = CoroutineStart.DEFAULT,
                                    block: suspend CoroutineScope.() -> Unit): Job =
-        launch(UI, start, block).bind(this)
+        launch(UI_POOL, start, block).bind(this)
 
-/**
- * Must be used ONLY when "this" is NOT instanceof SubscriptionContainer or you don't want to
- * automatically stop coroutine!
- */
-fun launchCuroutineUI(start: CoroutineStart = CoroutineStart.DEFAULT,
-                      block: suspend CoroutineScope.() -> Unit): Job = launch(UI, start, block)
-
-fun <T> SubscriptionContainer.async(start: CoroutineStart = CoroutineStart.DEFAULT,
+fun <T> SubscriptionContainer.asyncWorker(start: CoroutineStart = CoroutineStart.DEFAULT,
                                     block: suspend CoroutineScope.() -> T): Deferred<T> {
-    val result = async(CommonPool, start, block)
+    val result = async(WORKER_POOL, start, block)
     result.bind(this)
     return result
 }
 
-/**
- * Must be used ONLY when you have no access to SubscriptionContainer or you don't want to
- * automatically stop coroutine!
- */
-fun <T> asyncCoroutine(start: CoroutineStart = CoroutineStart.DEFAULT,
-                       block: suspend CoroutineScope.() -> T): Deferred<T> = async(CommonPool, start, block)
+fun <T> SubscriptionContainer.asyncUI(start: CoroutineStart = CoroutineStart.DEFAULT,
+                                          block: suspend CoroutineScope.() -> T): Deferred<T> {
+    val result = async(UI_POOL, start, block)
+    result.bind(this)
+    return result
+}

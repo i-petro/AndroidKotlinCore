@@ -160,7 +160,8 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
         if (localPresenter == null) {
             val isFirstPresenterCreation = localPresenterId == PRESENTER_NOT_FOUND
             if (!isFirstPresenterCreation) {
-                throw IllegalStateException("View has presenterID ($presenterId), but presenter not found!")
+                //App was killed
+                log("View has presenterID ($presenterId), but presenter not found!")
             }
 
             localPresenter = createPresenter(view)
@@ -168,7 +169,7 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
                     "${view.javaClass.name}; " +
                     "ifFirstPresenterCreation: $isFirstPresenterCreation")
             presentersStorage.put(view, presenterId, localPresenter)
-            localPresenter.onCreated()
+            localPresenter.onCreated(isFirstPresenterCreation)
         } else log("#REUSING_PRESENTER# presenterId:$presenterId ${localPresenter.javaClass.name} -> ${view.javaClass.name}")
 
         return localPresenter
