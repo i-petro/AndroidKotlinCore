@@ -16,8 +16,8 @@ deps.mvp_rx = project(":mvp-rx2")
 deps.mvp = project(":mvp")
 //deps.mvp = 'com.androidkotlincore:mvp:0.0.8'
 //
-deps.conductor = project(":mvp-conductor")
-
+deps.mvp_conductor = project(":mvp-conductor")
+//
 deps.entityconverter = project(":entityconverter")
 //deps.entityconverter = 'com.androidkotlincore:entityconverter:0.0.3'
 //=============================================== SUPPORT ==========================================

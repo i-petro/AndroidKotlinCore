@@ -1,1 +1,7 @@
-include ':sample', ':entityconverter', ':mvp', ':mvp-rx2', ':mvp-rx1', ':mvp-conductor'
+include ':sample',
+        ':entityconverter',
+        ':mvp',
+        ':mvp-rx2',
+        ':mvp-rx1',
+        ':mvp-conductor',
+        ':sample-conductor'

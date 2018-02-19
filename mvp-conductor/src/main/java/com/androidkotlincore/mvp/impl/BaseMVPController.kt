@@ -1,5 +1,8 @@
-package com.androidkotlincore.mvpconductor
+package com.androidkotlincore.mvp.impl
 
+import android.arch.lifecycle.LifecycleRegistry
+import android.arch.lifecycle.LifecycleRegistryOwner
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.CallSuper
@@ -9,22 +12,29 @@ import android.view.ViewGroup
 import com.androidkotlincore.mvp.MVPPresenter
 import com.androidkotlincore.mvp.MVPView
 import com.androidkotlincore.mvp.ViewPersistenceStorage
-import com.bluelinelabs.conductor.archlifecycle.LifecycleController
+import com.bluelinelabs.conductor.Controller
+import com.bluelinelabs.conductor.archlifecycle.ControllerLifecycleRegistryOwner
 
 /**
  * Created by pilc on 2/19/2018.
  */
 @Suppress("LeakingThis")
-abstract class BaseMVPController<TView, TPresenter>(private val mvpDelegate: MVPControllerDelegate<TPresenter, TView, BaseMVPController<TView, TPresenter>>)
-    : LifecycleController(),
+abstract class BaseMVPController<TView, TPresenter>(
+        private val mvpDelegate: MVPControllerDelegate<TPresenter, TView, BaseMVPController<TView, TPresenter>>,
+        args: Bundle)
+    : Controller(args),
         MVPView<TView, TPresenter> by mvpDelegate,
-        ViewPersistenceStorage
+        ViewPersistenceStorage,
+        LifecycleRegistryOwner
 
         where TView : MVPView<TView, TPresenter>,
               TPresenter : MVPPresenter<TPresenter, TView> {
 
-    constructor() : this(MVPControllerDelegate())
+    constructor(args: Bundle) : this(MVPControllerDelegate(), args)
 
+    private val lifecycleRegistryOwner = ControllerLifecycleRegistryOwner(this)
+    abstract override val contextNotNull: Context
+    override fun getLifecycle(): LifecycleRegistry = lifecycleRegistryOwner.lifecycle
 
     /**
      * Provides xml layout id
@@ -37,6 +47,11 @@ abstract class BaseMVPController<TView, TPresenter>(private val mvpDelegate: MVP
 
     init {
         mvpDelegate.init(this)
+        addLifecycleListener(object : LifecycleListener() {
+            override fun postCreateView(controller: Controller, view: View) {
+                onViewCreated(view)
+            }
+        })
     }
 
     /**
@@ -58,4 +73,8 @@ abstract class BaseMVPController<TView, TPresenter>(private val mvpDelegate: MVP
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
             inflater.inflate(layoutId, container, false)
+
+
+    open fun onViewCreated(view: View) {
+    }
 }

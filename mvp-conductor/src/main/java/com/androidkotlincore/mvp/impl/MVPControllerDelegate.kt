@@ -1,18 +1,16 @@
-package com.androidkotlincore.mvpconductor
+package com.androidkotlincore.mvp.impl
 
+import android.arch.lifecycle.LifecycleRegistryOwner
 import android.content.Context
 import android.os.Build
-import android.support.v4.app.BackStackAccessor
 import com.androidkotlincore.mvp.MVPPresenter
 import com.androidkotlincore.mvp.MVPView
-import com.androidkotlincore.mvp.impl.AbstractMVPDelegate
-import com.androidkotlincore.mvp.impl.PresentersStorage
-import com.androidkotlincore.mvp.impl.PresentersStorageImpl
 import com.androidkotlincore.mvp.impl.permissions.OnRequestPermissionsResultEvent
+import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.archlifecycle.LifecycleController
 
 /**
- * Created by pilc on 2/19/2018.
+ * Created by Peter on 2/19/2018.
  */
 /**
  * MVP delegate for [android.support.v4.app.Fragment]
@@ -23,7 +21,8 @@ class MVPControllerDelegate<TPresenter, TView, in V>(presentersStorage: Presente
         where TPresenter : MVPPresenter<TPresenter, TView>,
               TView : MVPView<TView, TPresenter>,
               V : MVPView<TView, TPresenter>,
-              V : LifecycleController {
+              V : Controller,
+              V : LifecycleRegistryOwner {
 
     constructor() : this(PresentersStorageImpl())
 
@@ -43,14 +42,14 @@ class MVPControllerDelegate<TPresenter, TView, in V>(presentersStorage: Presente
     override fun retainPresenterInstance(): Boolean {
         val localActivity = requireNotNull(view.activity) { "Activity must not be null for fragment $this" }
 
-        view.isBeingDestroyed
+        return !view.isBeingDestroyed && !view.isDestroyed
 
         //TODO: determine when controller will be destroyed
 //        val isActivityWillBeDestroyed =
 //        view.isBeingDestroyed
 //        view.isDestroyed
 
-        return localActivity.isChangingConfigurations || !localActivity.isFinishing
+//        return localActivity.isChangingConfigurations || !localActivity.isFinishing
 
 //        if (localActivity.isChangingConfigurations) {
 //            return true
