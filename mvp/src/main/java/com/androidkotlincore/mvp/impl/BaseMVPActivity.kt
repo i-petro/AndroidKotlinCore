@@ -38,7 +38,7 @@ abstract class BaseMVPActivity<TView, TPresenter>(
     /**
      * @see [ViewPersistenceStorage]
      * */
-    override lateinit var args: Bundle
+    override lateinit var persistenceArguments: Bundle
 
     /**
      * mvpDelegate should be init here
@@ -71,7 +71,7 @@ abstract class BaseMVPActivity<TView, TPresenter>(
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
-        args = savedInstanceState?.getBundle(EXTRA_ARGS) ?: Bundle()
+        persistenceArguments = savedInstanceState?.getBundle(EXTRA_ARGS) ?: Bundle()
 
         super.onCreate(savedInstanceState)
         setContentView(layoutId)
@@ -79,7 +79,7 @@ abstract class BaseMVPActivity<TView, TPresenter>(
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(EXTRA_ARGS, args)
+        outState.putBundle(EXTRA_ARGS, persistenceArguments)
     }
 
     private companion object {

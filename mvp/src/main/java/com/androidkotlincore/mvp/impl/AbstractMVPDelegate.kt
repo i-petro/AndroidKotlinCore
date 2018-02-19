@@ -43,7 +43,7 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
     protected val viewPersistenceStorage: Bundle
         get() {
             val localView = view
-            return if (localView is ViewPersistenceStorage) localView.args
+            return if (localView is ViewPersistenceStorage) localView.persistenceArguments
             else throw IllegalStateException("$localView must implement ${ViewPersistenceStorage::class.java.name}")
         }
 
@@ -67,7 +67,7 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
     /**
      * [BehaviourCompositeEventListener] to emit [Lifecycle.Event]
      * */
-    internal val lifecycleEmitter: EmitableCompositeEventListener<Lifecycle.Event> = BehaviourCompositeEventListener()
+    protected val lifecycleEmitter: EmitableCompositeEventListener<Lifecycle.Event> = BehaviourCompositeEventListener()
     /**
      * Use this listener to subscribe on [Lifecycle.Event]
      * */
@@ -76,7 +76,7 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
     /**
      * [BehaviourCompositeEventListener] to emit [OnActivityResultEvent]
      * */
-    internal val onActivityResultEmitter: EmitableCompositeEventListener<OnActivityResultEvent> = BehaviourCompositeEventListener()
+    protected val onActivityResultEmitter: EmitableCompositeEventListener<OnActivityResultEvent> = BehaviourCompositeEventListener()
     /**
      * Use this listener to subscribe on [OnActivityResultEvent]
      * */
@@ -85,7 +85,7 @@ abstract class AbstractMVPDelegate<TPresenter, TView>(private val presentersStor
     /**
      * [BehaviourCompositeEventListener] to emit [OnRequestPermissionsResultEvent]
      * */
-    internal val onRequestPermissionResultEmitter: EmitableCompositeEventListener<OnRequestPermissionsResultEvent> = BehaviourCompositeEventListener()
+    protected val onRequestPermissionResultEmitter: EmitableCompositeEventListener<OnRequestPermissionsResultEvent> = BehaviourCompositeEventListener()
     /**
      * Use this listener to subscribe on [OnRequestPermissionsResultEvent]
      * */

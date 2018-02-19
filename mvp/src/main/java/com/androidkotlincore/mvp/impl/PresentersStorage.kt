@@ -50,7 +50,7 @@ interface PresentersStorage<TPresenter : MVPPresenter<TPresenter, TView>, TView 
  * Default presenter's storage implementation
  * Saves presenters during View re-creation
  */
-internal class PresentersStorageImpl<TPresenter, TView> : PresentersStorage<TPresenter, TView>
+class PresentersStorageImpl<TPresenter, TView> : PresentersStorage<TPresenter, TView>
 
         where TPresenter : MVPPresenter<TPresenter, TView>,
               TView : MVPView<TView, TPresenter> {

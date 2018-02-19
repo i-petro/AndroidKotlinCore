@@ -36,11 +36,11 @@ abstract class BaseMVPDialog<TView, TPresenter>(private val mvpDelegate: MVPFrag
     /**
      * @see [MVPView]
      * */
-    override val mvpTag: Bundle get() = args
+    override val mvpTag: Bundle get() = persistenceArguments
     /**
      * @see [ViewPersistenceStorage]
      * */
-    override val args: Bundle
+    override val persistenceArguments: Bundle
         get() {
             val result = requireNotNull(arguments) { "${this@BaseMVPDialog} must have NOT NULL arguments!" }
             require(result != Bundle.EMPTY) { "${this@BaseMVPDialog} must have NOT EMPTY arguments!" }

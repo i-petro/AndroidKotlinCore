@@ -7,8 +7,8 @@ import android.os.Bundle
  */
 /**
  * It is a repository, the contents of which must be preserved when the View(Activity, Fragment) is re-created
- * @property args - bundle with key-data pairs
+ * @property persistenceArguments - bundle with key-data pairs
  */
 interface ViewPersistenceStorage {
-    val args: Bundle
+    val persistenceArguments: Bundle
 }

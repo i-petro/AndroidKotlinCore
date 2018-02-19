@@ -1,55 +1,40 @@
-package com.androidkotlincore.mvp.impl
+package com.androidkotlincore.mvpconductor
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.CallSuper
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.androidkotlincore.mvp.MVPPresenter
 import com.androidkotlincore.mvp.MVPView
 import com.androidkotlincore.mvp.ViewPersistenceStorage
+import com.bluelinelabs.conductor.archlifecycle.LifecycleController
 
 /**
- * Created by Peter on 06.01.2017.
+ * Created by pilc on 2/19/2018.
  */
-/**
- * Base class for MVPFragment.
- * @param mvpDelegate - implements functions from [MVPView]
- * */
 @Suppress("LeakingThis")
-abstract class BaseMVPFragment<TView, TPresenter>(private val mvpDelegate: MVPFragmentDelegate<TPresenter, TView, BaseMVPFragment<TView, TPresenter>>) :
-        Fragment(),
+abstract class BaseMVPController<TView, TPresenter>(private val mvpDelegate: MVPControllerDelegate<TPresenter, TView, BaseMVPController<TView, TPresenter>>)
+    : LifecycleController(),
         MVPView<TView, TPresenter> by mvpDelegate,
         ViewPersistenceStorage
 
         where TView : MVPView<TView, TPresenter>,
               TPresenter : MVPPresenter<TPresenter, TView> {
 
-    constructor() : this(MVPFragmentDelegate())
+    constructor() : this(MVPControllerDelegate())
+
 
     /**
      * Provides xml layout id
      * */
     abstract val layoutId: Int
-    /**
-     * @see [MVPView]
-     * */
-    override val mvpTag: Bundle get() = persistenceArguments
-    /**
-     * @see [ViewPersistenceStorage]
-     * */
-    override val persistenceArguments: Bundle
-        get() {
-            val result = requireNotNull(arguments) { "${this@BaseMVPFragment} must have NOT NULL arguments!" }
-            require(result != Bundle.EMPTY) { "${this@BaseMVPFragment} must have NOT EMPTY arguments!" }
-            return result
-        }
 
-    /**
-     * mvpDelegate should be init here
-     * */
+    override val mvpTag: Bundle get() = persistenceArguments
+
+    override val persistenceArguments: Bundle get() = args
+
     init {
         mvpDelegate.init(this)
     }
@@ -71,9 +56,6 @@ abstract class BaseMVPFragment<TView, TPresenter>(private val mvpDelegate: MVPFr
         mvpDelegate.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    @CallSuper
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return if (layoutId != 0) inflater.inflate(layoutId, container, false)
-        else super.onCreateView(inflater, container, savedInstanceState)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
+            inflater.inflate(layoutId, container, false)
 }
