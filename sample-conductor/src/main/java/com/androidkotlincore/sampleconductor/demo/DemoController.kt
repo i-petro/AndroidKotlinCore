@@ -29,7 +29,7 @@ class DemoController(args: Bundle) : BaseMVPController<DemoView, DemoPresenter>(
                     .popChangeHandler(HorizontalChangeHandler()))
         }
         view.btn_up.setOnClickListener {
-            router.popCurrentController()
+            router.activity?.onBackPressed()
         }
         view.btn_pop_to_root.setOnClickListener {
             router.popToRoot()
