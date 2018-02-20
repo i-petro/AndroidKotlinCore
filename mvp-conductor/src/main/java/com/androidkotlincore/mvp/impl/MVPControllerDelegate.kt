@@ -7,11 +7,11 @@ import com.androidkotlincore.mvp.MVPPresenter
 import com.androidkotlincore.mvp.MVPView
 import com.androidkotlincore.mvp.impl.permissions.OnRequestPermissionsResultEvent
 import com.bluelinelabs.conductor.Controller
-import com.bluelinelabs.conductor.archlifecycle.LifecycleController
 
 /**
- * Created by Peter on 2/19/2018.
- */
+* Created by Peter on 2/19/2018.
+*/
+
 /**
  * MVP delegate for [android.support.v4.app.Fragment]
  * */
@@ -40,30 +40,8 @@ class MVPControllerDelegate<TPresenter, TView, in V>(presentersStorage: Presente
      * @see [AbstractMVPDelegate.retainPresenterInstance]
      * */
     override fun retainPresenterInstance(): Boolean {
-        val localActivity = requireNotNull(view.activity) { "Activity must not be null for fragment $this" }
-
+        //TODO: test cases with screen rotation, don't keep activities mode
         return !view.isBeingDestroyed && !view.isDestroyed
-
-        //TODO: determine when controller will be destroyed
-//        val isActivityWillBeDestroyed =
-//        view.isBeingDestroyed
-//        view.isDestroyed
-
-//        return localActivity.isChangingConfigurations || !localActivity.isFinishing
-
-//        if (localActivity.isChangingConfigurations) {
-//            return true
-//        }
-//
-//        if (localActivity.isFinishing) {
-//            return false
-//        }
-//
-//        if (BackStackAccessor.isFragmentOnBackStack(view)) {
-//            return true
-//        }
-//
-//        return !view.isRemoving
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

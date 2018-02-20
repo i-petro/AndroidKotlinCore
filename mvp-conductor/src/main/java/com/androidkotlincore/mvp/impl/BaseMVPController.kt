@@ -16,9 +16,9 @@ import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.archlifecycle.ControllerLifecycleRegistryOwner
 
 /**
- * Created by pilc on 2/19/2018.
+ * Created by Peter on 2/19/2018.
  */
-@Suppress("LeakingThis")
+@Suppress("LeakingThis", "DEPRECATION")
 abstract class BaseMVPController<TView, TPresenter>(
         private val mvpDelegate: MVPControllerDelegate<TPresenter, TView, BaseMVPController<TView, TPresenter>>,
         args: Bundle)
