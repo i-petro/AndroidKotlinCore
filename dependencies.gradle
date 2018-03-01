@@ -68,14 +68,14 @@ playServices.firebase_auth_service = "com.google.android.gms:play-services-auth:
 deps.playServices = playServices
 
 //============================================== KOTLIN ============================================
-versions.kotlin = '1.2.21'
+versions.kotlin = '1.2.30'
 def kotlin = [:]
 kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jre7:$versions.kotlin"
 kotlin.test = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
 kotlin.gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 deps.kotlin = kotlin
 
-versions.coroutines = '0.19.3'
+versions.coroutines = '0.22.3'
 def coroutines = [:]
 coroutines.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
 coroutines.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"

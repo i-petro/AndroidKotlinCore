@@ -60,7 +60,7 @@ android {
 
     sourceSets {
         main {
-            kotlin.srcDirs += 'src/main/myKotlin'
+            kotlin.srcDirs += 'src/main/kotlin'
             res.srcDirs = [
                     'src/main/res',
                     'src/main/res/activity',

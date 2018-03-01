@@ -12,8 +12,8 @@ import com.google.android.gms.auth.api.signin.*
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.experimental.suspendCancellableCoroutine
 import javax.inject.Inject
-import kotlin.coroutines.experimental.suspendCoroutine
 
 /**
  * Created by Peter on 05.02.2018.
@@ -35,7 +35,7 @@ class GoogleSignInServiceImpl @Inject constructor(ctx: Context, convertersContex
 
     override suspend fun processSignInResult(result: Intent): SignInModel {
         val googleSignInAccount: GoogleSignInAccount =
-                suspendCoroutine { continuation ->
+                suspendCancellableCoroutine { continuation ->
                     Auth.GoogleSignInApi.getSignInResultFromIntent(result)
                     GoogleSignIn.getSignedInAccountFromIntent(result).addOnCompleteListener {
                         when {
@@ -49,7 +49,7 @@ class GoogleSignInServiceImpl @Inject constructor(ctx: Context, convertersContex
 
         val credential = GoogleAuthProvider.getCredential(googleSignInAccount.idToken, null)
 
-        val authResult = suspendCoroutine<AuthResult> { continuation ->
+        val authResult = suspendCancellableCoroutine<AuthResult> { continuation ->
             firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
                 when {
                     it.isSuccessful -> continuation.resume(it.result)
@@ -64,7 +64,7 @@ class GoogleSignInServiceImpl @Inject constructor(ctx: Context, convertersContex
 
     override suspend fun logout() {
         firebaseAuth.signOut()
-        suspendCoroutine<Unit> { continuation ->
+        suspendCancellableCoroutine<Unit> { continuation ->
             googleSignInClient.signOut().addOnCompleteListener {
                 when {
                     it.isSuccessful -> continuation.resume(Unit)

@@ -1,6 +1,6 @@
 package com.androidkotlincore.mvp.addons
 
-import kotlin.coroutines.experimental.suspendCoroutine
+import kotlinx.coroutines.experimental.suspendCancellableCoroutine
 
 /**
  * Created by Peter on 31.01.18.
@@ -33,7 +33,7 @@ interface CompositeEventListener<TEvent> {
  * @return TEvent
  **/
 suspend fun <TEvent> CompositeEventListener<TEvent>.awaitFirst(predicate: (TEvent) -> Boolean = { true }): TEvent {
-    return suspendCoroutine { continuation ->
+    return suspendCancellableCoroutine { continuation ->
         lateinit var listener: (TEvent) -> Unit
         listener = { event: TEvent ->
             if (predicate(event)) {
